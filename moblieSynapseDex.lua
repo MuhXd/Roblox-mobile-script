@@ -1,7 +1,22 @@
-local SelfModules = {
-    Functions = loadstring(game:HttpGet("https://raw.githubusercontent.com/RegularVynixu/Utilities/main/Functions.lua"))(),
-}
+ local CustomFunctionSupport = isfile and isfolder and writefile and readfile and listfiles
+ local FileSupport = isfile and isfolder and writefile and readfile
 
+if FileSupport then
+ if not isfolder('Custom_Objects') then
+ makefolder('Custom_Objects')
+ end
+    
+function LoadFile(url)
+        
+if not isfile("Custom_Objects/"..url..".rsfsrb") then
+     writefile("Custom_Objects/"..url..".rsfsrb",url)
+ else
+    appendfile("Custom_Objects/"..url..".rsfsrb",url)
+ end
+        
+return game:GetObjects(readfile("Custom_Objects/"..url..".rsfsrb"))[1]
+
+end
 local rng = Random.new()
 local charset = {}
 for i = 48,  57 do table.insert(charset, string.char(i)) end
@@ -16,7 +31,7 @@ local function RandomCharacters(length)
 end
 
 --local Dex = game:GetObjects("rbxassetid://9553291002")[1]
-local Dex = LoadCustomInstance("https://github.com/MuhXd/Roblox-mobile-script/blob/main/MobileScaledVer.rbxm?raw=true")
+local Dex = LoadFile("https://github.com/MuhXd/Roblox-mobile-script/blob/main/MobileScaledVer.rbxm?raw=true")
 print(Dex)
 if (not Dex) or Dex == "" then
 warn("Cannot Load :(")
