@@ -6,15 +6,15 @@ if FileSupport then
  makefolder('Custom_Objects')
  end
 end
-function LoadFile(url)
+function LoadFile(n,url)
         
-if not isfile("Custom_Objects/"..url..".rsfsrb") then
-     writefile("Custom_Objects/"..url..".rsfsrb",url)
+if not isfile("Custom_Objects/"..n..".rsfsrb") then
+     writefile("Custom_Objects/"..n..".rsfsrb",url)
  else
-    appendfile("Custom_Objects/"..url..".rsfsrb",url)
+    appendfile("Custom_Objects/"..n..".rsfsrb",url)
  end
         
-return game:GetObjects(readfile("Custom_Objects/"..url..".rsfsrb"))[1]
+return game:GetObjects(readfile("Custom_Objects/"..n..".rsfsrb"))[1]
 
 end
 local rng = Random.new()
@@ -31,7 +31,7 @@ local function RandomCharacters(length)
 end
 
 --local Dex = game:GetObjects("rbxassetid://9553291002")[1]
-local Dex = LoadFile("https://github.com/MuhXd/Roblox-mobile-script/blob/main/MobileScaledVer.rbxm?raw=true")
+local Dex = LoadFile("MobileScaledVer-DEX","https://github.com/MuhXd/Roblox-mobile-script/blob/main/MobileScaledVer.rbxm?raw=true")
 print(Dex)
 if (not Dex) or Dex == "" then
 warn("Cannot Load :(")
