@@ -18,7 +18,7 @@ end
 --local Dex = game:GetObjects("rbxassetid://9553291002")[1]
 local Dex = LoadCustomInstance("https://github.com/MuhXd/Roblox-mobile-script/blob/main/MobileScaledVer.rbxm?raw=true")
 print(Dex)
-if (!Dex) or Dex == "" then
+if (not Dex) or Dex == "" then
 warn("Cannot Load :(")
 return;
 end
