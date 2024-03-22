@@ -1,5 +1,8 @@
-	 local rng = Random.new()
+local SelfModules = {
+    Functions = loadstring(game:HttpGet("https://raw.githubusercontent.com/RegularVynixu/Utilities/main/Functions.lua"))(),
+}
 
+local rng = Random.new()
 local charset = {}
 for i = 48,  57 do table.insert(charset, string.char(i)) end
 for i = 65,  90 do table.insert(charset, string.char(i)) end
@@ -12,7 +15,8 @@ local function RandomCharacters(length)
   end
 end
 
-local Dex = game:GetObjects("rbxassetid://9553291002")[1]
+--local Dex = game:GetObjects("rbxassetid://9553291002")[1]
+local Dex = LoadCustomInstance("https://github.com/MuhXd/Roblox-mobile-script/blob/main/MobileScaledVer.rbxm?raw=true")
 Dex.Name = RandomCharacters(rng:NextInteger(5, 20))
 Dex.Parent = game:GetService("CoreGui")
 -- makes dex smaller for mobile
