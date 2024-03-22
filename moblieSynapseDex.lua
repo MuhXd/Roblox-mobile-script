@@ -15,6 +15,10 @@ end
 local Dex = game:GetObjects("rbxassetid://9553291002")[1]
 Dex.Name = RandomCharacters(rng:NextInteger(5, 20))
 Dex.Parent = game:GetService("CoreGui")
+-- makes dex smaller for mobile
+local UIScale = Instance.new("UIScale")
+UIScale.Parent = Dex
+UIScale.Scale = 0.700
 
 local function Load(Obj, Url)
 local function GiveOwnGlobals(Func, Script)
