@@ -12,7 +12,6 @@ local function RandomCharacters(length)
   end
 end
 
---local Dex = game:GetObjects("rbxassetid://9553291002")[1]
 local Dex = FileShortcuts.FileGetObjects("https://github.com/MuhXd/Roblox-mobile-script/blob/main/MobileScaledVer.rbxm?raw=true")
 Dex.Name = RandomCharacters(rng:NextInteger(5, 20))
 Dex.Parent = game:GetService("CoreGui")
