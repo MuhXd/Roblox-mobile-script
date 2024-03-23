@@ -1,13 +1,3 @@
- local CustomFunctionSupport = isfile and isfolder and writefile and readfile and listfiles
- local FileSupport = isfile and isfolder and writefile and readfile
-local Functions = {
-    IsClosure = is_synapse_function or iskrnlclosure or isexecutorclosure,
-    SetIdentity = (syn and syn.set_thread_identity) or set_thread_identity or setthreadidentity or setthreadcontext,
-    GetIdentity = (syn and syn.get_thread_identity) or get_thread_identity or getthreadidentity or getthreadcontext,
-    Request = (syn and syn.request) or http_request or request,
-    QueueOnTeleport = (syn and syn.queue_on_teleport) or queue_on_teleport,
-    GetAsset = getsynasset or getcustomasset,
-}
 local FileShortcuts = loadstring(game:HttpGet("https://github.com/MuhXd/Roblox-mobile-script/blob/main/Functions.lua?raw=true"))();
 local rng = Random.new()
 local charset = {}
