@@ -29,3 +29,4 @@ funcs.GetAssetFiles = function(url)
     writefile("Custom_Objects/"..url..".rsfsrb",req)
     return Functions.GetAsset("Custom_Objects/"..url..".rsfsrb")
 end
+return funcs
