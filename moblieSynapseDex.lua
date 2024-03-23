@@ -15,11 +15,11 @@ if FileSupport then
  end
 end
 function LoadFile(n,url)
-        local req = Functions.Request({Url=url, Method="GET"})
+        local req = loadstring(game:HttpGet(url))()
 if not isfile("Custom_Objects/"..n..".rsfsrb") then
-     writefile("Custom_Objects/"..n..".rsfsrb",req.Body)
+     writefile("Custom_Objects/"..n..".rsfsrb",req)
  else
-    appendfile("Custom_Objects/"..n..".rsfsrb",req.Body)
+    appendfile("Custom_Objects/"..n..".rsfsrb",req)
  end
         
 return game:GetObjects(Functions.GetAsset("Custom_Objects/"..n..".rsfsrb"))[1]
