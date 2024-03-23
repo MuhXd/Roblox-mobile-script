@@ -15,18 +15,37 @@ if FileSupport then
  end
 end
 
+function hash(input)
+  -- Placeholder for a hashing function
+  -- In practice, replace this with a proper hashing algorithm
+  local sum = 0
+  for i = 1, #input do
+    local c = string.byte(input, i)
+    sum = (sum + c) % 10000000000 -- Keeping the sum within 10 digits
+  end
+  return tostring(sum)
+end
+
+function shortenURL(url)
+  local shortName = hash(url)
+  return string.sub(shortName, 1, 10) -- Ensure the result is 10 characters long
+end
+
+
 funcs.FileGetObjects = function(url)
+     local name = shortenURL(url)
       if (not FileSupport) then
         return error("Unable to create file - doesn't support File creating")
       end
       local req = game:HttpGet(url)
-     writefile("Custom_Objects/"..url..".rsfsrb",req)
-return game:GetObjects(Functions.GetAsset("Custom_Objects/"..url..".rsfsrb"))[1]
+     writefile("Custom_Objects/"..name..".rsfsrb",req)
+return game:GetObjects(Functions.GetAsset("Custom_Objects/"..name..".rsfsrb"))[1]
 end
      
 funcs.GetAssetFiles = function(url) 
+   local name = shortenURL(url)
    local req = game:HttpGet(url)
-    writefile("Custom_Objects/"..url..".rsfsrb",req)
-    return Functions.GetAsset("Custom_Objects/"..url..".rsfsrb")
+    writefile("Custom_Objects/"..name..".rsfsrb",req)
+    return Functions.GetAsset("Custom_Objects/"..name..".rsfsrb")
 end
 return funcs
