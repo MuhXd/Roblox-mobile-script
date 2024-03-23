@@ -31,17 +31,6 @@ function shortenURL(url)
   return string.sub(shortName, 1, 10) -- Ensure the result is 10 characters long
 end
 
-
-funcs.FileGetObjects = function(url)
-     local name = shortenURL(url)
-      if (not FileSupport) then
-        return error("Unable to create file - doesn't support File creating")
-      end
-      local req = game:HttpGet(url)
-     writefile("Custom_Objects/"..name..".rsfsrb",req)
-return game:GetObjects(Functions.GetAsset("Custom_Objects/"..name..".rsfsrb"))[1]
-end
-     
 funcs.GetAssetFiles = function(url) 
   if (not FileSupport) then
         return error("Unable to create file - doesn't support File creating")
@@ -51,4 +40,13 @@ funcs.GetAssetFiles = function(url)
     writefile("Custom_Objects/"..name..".rsfsrb",req)
     return Functions.GetAsset("Custom_Objects/"..name..".rsfsrb")
 end
+
+funcs.FileGetObjects = function(url)
+  if (not FileSupport) then
+        return error("Unable to create file - doesn't support File creating")
+  end
+return game:GetObjects(funcs.GetAssetFiles(url))[1]
+end
+     
+
 return funcs
