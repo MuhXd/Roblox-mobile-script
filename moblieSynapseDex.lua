@@ -15,7 +15,7 @@ if FileSupport then
  end
 end
 function LoadFile(n,url)
-        local req = loadstring(game:HttpGet(url))()
+        local req = game:HttpGet(url)
 if not isfile("Custom_Objects/"..n..".rsfsrb") then
      writefile("Custom_Objects/"..n..".rsfsrb",req)
  else
