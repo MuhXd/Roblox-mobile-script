@@ -43,6 +43,9 @@ return game:GetObjects(Functions.GetAsset("Custom_Objects/"..name..".rsfsrb"))[1
 end
      
 funcs.GetAssetFiles = function(url) 
+  if (not FileSupport) then
+        return error("Unable to create file - doesn't support File creating")
+      end
    local name = shortenURL(url)
    local req = game:HttpGet(url)
     writefile("Custom_Objects/"..name..".rsfsrb",req)
