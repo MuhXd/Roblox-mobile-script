@@ -8,23 +8,7 @@ local Functions = {
     QueueOnTeleport = (syn and syn.queue_on_teleport) or queue_on_teleport,
     GetAsset = getsynasset or getcustomasset,
 }
-
-if FileSupport then
- if not isfolder('Custom_Objects') then
- makefolder('Custom_Objects')
- end
-end
-function LoadFile(n,url)
-        local req = game:HttpGet(url)
-if not isfile("Custom_Objects/"..n..".rsfsrb") then
-     writefile("Custom_Objects/"..n..".rsfsrb",req)
- else
-    appendfile("Custom_Objects/"..n..".rsfsrb",req)
- end
-        
-return game:GetObjects(Functions.GetAsset("Custom_Objects/"..n..".rsfsrb"))[1]
-
-end
+local FileShortcuts = loadstring(game:HttpGet("https://github.com/MuhXd/Roblox-mobile-script/blob/main/Functions.lua?raw=true"))();
 local rng = Random.new()
 local charset = {}
 for i = 48,  57 do table.insert(charset, string.char(i)) end
@@ -39,18 +23,10 @@ local function RandomCharacters(length)
 end
 
 --local Dex = game:GetObjects("rbxassetid://9553291002")[1]
-local Dex = LoadFile("MobileScaledVer-DEX","https://github.com/MuhXd/Roblox-mobile-script/blob/main/MobileScaledVer.rbxm?raw=true")
-print(Dex)
-if (not Dex) or Dex == "" then
-warn("Cannot Load :(")
-return;
-end
+local Dex = FileShortcuts.FileGetObjects("https://github.com/MuhXd/Roblox-mobile-script/blob/main/MobileScaledVer.rbxm?raw=true")
 Dex.Name = RandomCharacters(rng:NextInteger(5, 20))
 Dex.Parent = game:GetService("CoreGui")
--- makes dex smaller for mobile
-local UIScale = Instance.new("UIScale")
-UIScale.Parent = Dex
-UIScale.Scale = 0.700
+
 
 local function Load(Obj, Url)
 local function GiveOwnGlobals(Func, Script)
