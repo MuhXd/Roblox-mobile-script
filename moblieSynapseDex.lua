@@ -11,11 +11,14 @@ local function RandomCharacters(length)
     return ""
   end
 end
-
-local Dex = FileShortcuts.FileGetObjects("https://github.com/MuhXd/Roblox-mobile-script/blob/main/MobileScaledVer.rbxm?raw=true")
+local Dex = nil
+if inputService:GetPlatform() == Enum.Platform.IOS or inputService:GetPlatform() == Enum.Platform.Android or inputService:GetPlatform() == Enum.Platform.AndroidTV then 
+Dex = FileShortcuts.FileGetObjects("https://github.com/MuhXd/Roblox-mobile-script/blob/main/MobileScaledVer.rbxm?raw=true")
+else
+Dex = game:GetObjects("rbxassetid://9553291002")[1]
+end
 Dex.Name = RandomCharacters(rng:NextInteger(5, 20))
 Dex.Parent = game:GetService("CoreGui")
-
 
 local function Load(Obj, Url)
 local function GiveOwnGlobals(Func, Script)
