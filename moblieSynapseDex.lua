@@ -1,4 +1,5 @@
 local FileShortcuts = loadstring(game:HttpGet("https://github.com/MuhXd/Roblox-mobile-script/blob/main/Functions.lua?raw=true"))();
+local inputService = game:GetService("UserInputService")
 local rng = Random.new()
 local charset = {}
 for i = 48,  57 do table.insert(charset, string.char(i)) end
