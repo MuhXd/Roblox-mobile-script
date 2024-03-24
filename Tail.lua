@@ -26,8 +26,9 @@ local function newplayer(char)
 		wait(2)
 	end
 end
-game.Players.LocalPlayer.CharacterAppearanceLoaded:Connect(function()
-	newplayer(game.Players.LocalPlayer.Character) 
+game.Players.LocalPlayer.CharacterAdded:Connect(function(char)
+	game.Players.LocalPlayer.CharacterAppearanceLoaded:Wait()
+	newplayer(char) 
 end)
 if game.Players.LocalPlayer.Character then
 	newplayer(game.Players.LocalPlayer.Character) 
