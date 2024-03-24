@@ -8,6 +8,7 @@ local function newplayer(char)
 		if tonumber(v.Name) == v.Name then -- for games that have the name as a id (e.g funky friday)
 			local success, asset = pcall(MarketPlaceService.GetProductInfo,MarketPlaceService,v.Name)
 			if success then
+			print(asset.Name)
 			if string.find(asset.Name:lower(),"tail") then
 				item = v	
 				end
