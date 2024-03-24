@@ -1,4 +1,4 @@
---https://tracker.vendetta.rocks/tracker/download/222112/config.arm64_v8a
+
 local function newplayer(char)
 	local item 
 	local TweenService = game:GetService("TweenService")
