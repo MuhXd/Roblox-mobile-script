@@ -1,5 +1,4 @@
-
-game.Players.LocalPlayer.CharacterAdded:Connect(function(char)
+local function newplayer(char)
 	local item 
 	local TweenService = game:GetService("TweenService")
 	for i,v in pairs(char:GetChildren()) do
@@ -18,13 +17,18 @@ game.Players.LocalPlayer.CharacterAdded:Connect(function(char)
 	M6D.C0 = CFrame.new(o) * CFrame.Angles(0,50,0)
 	item.Handle.AccessoryWeld:Destroy()
 	while task.wait() do
-			local TweenService = game:GetService("TweenService")
+		local TweenService = game:GetService("TweenService")
 		local tweenIn = TweenService:Create(M6D, TweenInfo.new(2, Enum.EasingStyle.Sine, Enum.EasingDirection.InOut, 0, false, 0), {C0 = CFrame.new(o) * CFrame.Angles(0,50,0) })
 		local tweenOut = TweenService:Create(M6D, TweenInfo.new(2, Enum.EasingStyle.Sine, Enum.EasingDirection.InOut, 0, false, 0), {C0 = CFrame.new(o) * CFrame.Angles(0,-50,0) })
-			tweenIn:Play()
-			wait(2)
-			tweenOut:Play()
-			wait(2)
-		end
-		
+		tweenIn:Play()
+		wait(2)
+		tweenOut:Play()
+		wait(2)
+	end
+end
+game.Players.LocalPlayer.CharacterAdded:Connect(function(char)
+	newplayer(char)
 end)
+if game.Players.LocalPlayer.Character then
+	newplayer(game.Players.LocalPlayer.Character) 
+end
