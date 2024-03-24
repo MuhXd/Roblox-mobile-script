@@ -1,4 +1,4 @@
-
+b = false
 o = 0
 local MarketPlaceService = game:GetService("MarketplaceService")
 local function newplayer(char)
@@ -24,8 +24,9 @@ local function newplayer(char)
 	M6D.Parent = item.Handle
 	M6D.Part0 = item.Handle.AccessoryWeld.Part0
 	M6D.Part1 = item.Handle.AccessoryWeld.Part1
-	if o == 0 then
+	if b == false then
 		o = item.Handle.AccessoryWeld.C0.Position
+		b = true
 	end
 	M6D.C0 = CFrame.new(o) * CFrame.Angles(0,50,0)
 	item.Handle.AccessoryWeld:Destroy()
