@@ -1,4 +1,3 @@
-
 local function newplayer(char)
 	local item 
 	local TweenService = game:GetService("TweenService")
@@ -27,8 +26,8 @@ local function newplayer(char)
 		wait(2)
 	end
 end
-game.Players.LocalPlayer.CharacterAdded:Connect(function(char)
-	newplayer(char)
+game.Players.LocalPlayer.CharacterAppearanceLoaded:Connect(function()
+	newplayer(game.Players.LocalPlayer.Character) 
 end)
 if game.Players.LocalPlayer.Character then
 	newplayer(game.Players.LocalPlayer.Character) 
