@@ -16,7 +16,7 @@ local function newplayer(char)
 	M6D.Part0 = item.Handle.AccessoryWeld.Part0
 	M6D.Part1 = item.Handle.AccessoryWeld.Part1
 	local o = item.Handle.AccessoryWeld.C0.Position
-	M6D.C0 = CFrame.new(o) * CFrame.Angles(0,50,0)
+	M6D.C0 = CFrame.new(o)
 	item.Handle.AccessoryWeld:Destroy()
 	while task.wait() do
 		local TweenService = game:GetService("TweenService")
