@@ -6,9 +6,9 @@ local function newplayer(char)
 	for i,v in pairs(char:GetChildren()) do
 		print(v.Name)
 		if tonumber(v.Name) == v.Name then -- for games that have the name as a id (e.g funky friday)
-			local success, asset = pcall(MarketPlaceService.GetProductInfo,MarketPlaceService,v.Name)
-			if success then
+			local success, asset = pcall(MarketPlaceService.GetProductInfo,MarketPlaceService,tonumber(v.Name) )
 			print(asset.Name)
+			if success then
 			if string.find(asset.Name:lower(),"tail") then
 				item = v	
 				end
