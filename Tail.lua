@@ -1,7 +1,9 @@
+print("load")
 local function newplayer(char)
 	local item 
 	local TweenService = game:GetService("TweenService")
 	for i,v in pairs(char:GetChildren()) do
+		--print(v.Name)
 		if string.find(v.Name:lower(),"tail") then
 			item = v	
 		end
@@ -26,10 +28,12 @@ local function newplayer(char)
 		wait(2)
 	end
 end
-game.Players.LocalPlayer.CharacterAdded:Connect(function(char)
-	game.Players.LocalPlayer.CharacterAppearanceLoaded:Wait()
-	newplayer(char) 
+game.Players.LocalPlayer.CharacterAdded:Connect(function()
+	--print("char added")
+	task.wait(1)
+	newplayer(game.Players.LocalPlayer.Character) 
 end)
+
 if game.Players.LocalPlayer.Character then
 	newplayer(game.Players.LocalPlayer.Character) 
 end
