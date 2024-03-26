@@ -48,7 +48,6 @@ funcs.FileGetObjects = function(url)
 return game:GetObjects(funcs.GetAssetFiles(url))[1]
 end
 
-
 funcs.FileSetAudio = function(Sound,url)
    if Sound then
   s,r = pcall(function()
@@ -66,7 +65,42 @@ funcs.FileSetAudio = function(Sound,url)
   error("Unable to pass Sound Checks")
 end
 
-
-     
+funcs.getuserinfo = function()
+-- Gets User info
+local UserInputService = game:GetService("UserInputService") 
+local Platform = UserInputService:GetPlatform()
+if Platform then
+	Info = tostring(string.gsub(tostring(Platform), "Enum.Platform", ""))
+end
+if Info == "None" then
+	s,r = 	pcall(function()
+		local response = request({
+			Url = "https://httpbin.org/user-agent",
+			Method = "GET",
+		})
+		assert(type(response) == "table", "Response must be a table")
+		assert(response.StatusCode == 200, "Did not return a 200 status code")
+		local data = game:GetService("HttpService"):JSONDecode(response.Body)
+		assert(type(data) == "table" and type(data["user-agent"]) == "string", "Did not return a table with a user-agent key")
+		Info = data["user-agent"]
+	end)
+	if not s then
+		Info = "Unable to find"
+	end
+end
+if Info=="OSX" then
+	Info = "MacOS"
+end
+if Info=="UWP" then
+	Info = "Universal Windows Platform"
+end
+if Info=="IOS" then
+	Info = "IPhone"
+end
+if Info=="NX" then
+	Info = "Cisco Nexus"
+end
+return Info,game.Players.LocalPlayer.DisplayName,game.Players.LocalPlayer.Name,workspace:GetRealPhysicsFPS()
+end
 
 return funcs
