@@ -47,6 +47,26 @@ funcs.FileGetObjects = function(url)
   end
 return game:GetObjects(funcs.GetAssetFiles(url))[1]
 end
+
+
+funcs.FileSetAudio = function(Sound,url)
+   if Sound then
+  s,r = pcall(function()
+      Sound.SoundID = 0
+      return true
+   end)
+   if s then
+   return Sound.SoundID = funcs.GetAssetFiles(url)
+  else
+   error("Sound Doesn't Have SoundID")
+  end
+ else
+   error("Sound Object is Invalid")
+ end
+  error("Unable to pass Sound Checks")
+end
+
+
      
 
 return funcs
