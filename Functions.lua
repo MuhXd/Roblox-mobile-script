@@ -70,7 +70,7 @@ funcs.getuserinfo = function()
 	local UserInputService = game:GetService("UserInputService") 
 	local Platform = UserInputService:GetPlatform()
 	if Platform then
-		Info = tostring(string.gsub(tostring(Platform), "Enum.Platform", ""))
+		Info = tostring(string.gsub(tostring(Platform), "Enum.Platform.", ""))
 	end
 	if Info == "None" then
 		s,r = 	pcall(function()
