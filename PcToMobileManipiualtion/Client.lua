@@ -1,22 +1,14 @@
-if not game:IsLoaded() then game.Loaded:Wait() end
+if not game:IsLoaded() then 
+    game.Loaded:Wait() 
+end
 
 local websocket
 
+local serverIP = _G.Ip or "192.168.1.131" -- Replace this with the actual IP address of your WebSocket server
+local serverPort = 1000
 
-local success, connection = pcall(function()
-    return WebSocket.connect("ws://localhost:1000") 
+
+web = WebSocket.connect("ws://" .. serverIP .. ":" .. serverPort) 
+web.OnMessage:Connect(function(Msg)
+    print(Msg) -- Print messages sent to SX.
 end)
-
-
-if success and connection then
-    websocket = connection
-    websocket.OnMessage:Connect(function(msg)
-        print("Received message: "..msg)
-    end)
-    print("WebSocket connected successfully.")
-else
-    print("Failed to connect to WebSocket server.")
-    if not success then
-        print("Error: "..tostring(connection))
-    end
-end
