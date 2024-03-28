@@ -20,10 +20,10 @@ local oldwarn; oldwarn = hookfunction(warn, function(t)
 	return oldwarn(t);
 end);
 local oldprint; oldprint = hookfunction(print, function(r)
-	web:send("Print: "..t)
+	web:send("Print: "..r)
 	return oldprint(t);
 end);
 local olderror; olderror = hookfunction(error, function(r)
-	web:send("Error: "..t)
+	web:send("Error: "..r)
 	return olderror(t);
 end);
