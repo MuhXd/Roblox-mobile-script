@@ -17,13 +17,13 @@ print("Successfully Opened WebSocket at: "..serverIP)
 
 local oldwarn; oldwarn = hookfunction(warn, function(t)
 	web:send("Warn: "..t)
-	return oldwarn(...);
+	return oldwarn(t);
 end);
 local oldprint; oldprint = hookfunction(print, function(r)
 	web:send("Print: "..t)
-	return oldprint(...);
+	return oldprint(t);
 end);
 local olderror; olderror = hookfunction(error, function(r)
 	web:send("Error: "..t)
-	return olderror(...);
+	return olderror(t);
 end);
