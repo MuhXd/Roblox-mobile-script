@@ -1,6 +1,6 @@
 if not game:IsLoaded() then game.Loaded:Wait() end
 local websocket
-local server = _G.PcConnectionIP or "192.168.1.131"
+local server = _G.PcConnectionIP or "0.0.0.0"
 websocket = WebSocket.connect("wss://"..server..":1000")
 
 
