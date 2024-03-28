@@ -18,5 +18,10 @@ if not _G.autoran then
 end
 
 web.OnMessage:Connect(function(msg)
-    xpcall(loadstring(msg), warn)
+    s,e = pcall(function()
+        loadstring(msg)
+    end)
+    if not s then
+    error(e)
+    end
 end)
