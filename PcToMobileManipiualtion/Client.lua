@@ -5,14 +5,14 @@ local server = _G.PcConnectionIP or "192.168.1.131"
 
 -- Attempt to connect to the WebSocket server
 local success, connection = pcall(function()
-    return WebSocket.connect("wss://"..server..":1000")
+    return WebSocket.connect(server..":1000")
 end)
 
 -- Check if the connection was successful
 if success and connection then
     websocket = connection
     websocket.OnMessage:Connect(function(msg)
-        print(msg)
+        print("Received message: "..msg)
     end)
     print("WebSocket connected successfully.")
 else
