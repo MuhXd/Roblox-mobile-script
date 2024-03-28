@@ -4,8 +4,8 @@ end
 
 local websocket
 
-local serverIP = _G.Ip or "192.168.1.131" -- Replace this with the actual IP address of your WebSocket server
-local serverPort = 1000
+local serverIP = _G.PCHOOKIP or "192.168.1.131" -- Replace this with the actual IP address of your WebSocket server
+local serverPort = _G.PCHOOKPORT or 1000
 
 
 if not game:IsLoaded() then game.Loaded:Wait() end
