@@ -15,7 +15,7 @@ end)
 print(" -- quick reminder that you can show the ip as it is a inhouse network ip so it won't be able to be connected to unless you are in the same network -- ")
 print("Successfully Opened WebSocket at: "..serverIP)
 
-local oldprint; oldprint = hookfunction(warn, function(...)
+local oldwarn; oldwarn = hookfunction(warn, function(...)
 	args = {...}
 	web.send("Warn: "..arg[1])
 	return oldprint(...);
