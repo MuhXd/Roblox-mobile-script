@@ -12,7 +12,7 @@ web.OnMessage:Connect(function(Msg)
 	assert(loadstring(tostring(Msg)))()
 end)
 
-print(" -- quick reminder that you can show the ip as it is a inhouse network ip so it won't be able to be connected to unless you are in the same network -- ")
+print(" -- quick reminder that you can show the ip as it is a inhouse network ip so it won't be able to be connected to unless you are on the same network -- ")
 print("Successfully Opened WebSocket at: "..serverIP)
 
 local oldwarn; oldwarn = hookfunction(warn, function(t)
