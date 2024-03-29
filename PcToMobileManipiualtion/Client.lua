@@ -16,14 +16,14 @@ print(" -- quick reminder that you can show the ip as it is a inhouse network ip
 print("Successfully Opened WebSocket at: "..serverIP)
 
 local oldwarn; oldwarn = hookfunction(warn, function(t)
-	web:send("Warn: "..tostring(t))
+	web:Send("Warn: "..tostring(t))
 	return oldwarn(t);
 end);
 local oldprint; oldprint = hookfunction(print, function(r)
-	web:send("Print: "..tostring(r))
+	web:Send("Print: "..tostring(r))
 	return oldprint(r);
 end);
 local olderror; olderror = hookfunction(error, function(r)
-	web:send("Error: "..tostring(r))
+	web:Send("Error: "..tostring(r))
 	return olderror(r);
 end);
