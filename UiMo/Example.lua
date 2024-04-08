@@ -1,7 +1,7 @@
 
 local Ui = loadstring(game:HttpGet("https://github.com/MuhXd/Roblox-mobile-script/blob/main/UiMo/Loader.lua?raw=true"))();
 
-Local MoUi = Ui.SpawnUi({
+local MoUi = Ui.SpawnUi({
 	["UiName"] = "Hub",
 	["Deley"] = 3
 })
