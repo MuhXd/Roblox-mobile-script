@@ -12,7 +12,7 @@ MoUi.Button({
 	["Info"] = "Test Info",
 	["InfoButton"] = "._.",
 	["Function"] = function ()
-			TEST.Notify({
+			MoUi.Notify({
 				["Name"] = "Test notify",
 				["Info"] = "Test info",
 				["LifeTime"] = 20
@@ -27,7 +27,7 @@ MoUi.CheckBox({
 	["Name"] = "CheckBox alert",
 	["Info"] = "Template",
 	["Function"] = function (bool)
-		TEST.Notify({
+		MoUi.Notify({
 			["Name"] = "Test CheckBox",
 			["Info"] = "Enabled: "..tostring(bool),
 			["LifeTime"] = 20
