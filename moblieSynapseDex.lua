@@ -1,3 +1,7 @@
+-- adds Save instance
+loadstring(game:HttpGet("https://github.com/MuhXd/Roblox-mobile-script/blob/main/Arecus-X-Neo/Saveinstance.lua?raw=true"))();
+
+
 local FileShortcuts = loadstring(game:HttpGet("https://github.com/MuhXd/Roblox-mobile-script/blob/main/Functions.lua?raw=true"))();
 local inputService = game:GetService("UserInputService")
 local rng = Random.new()
