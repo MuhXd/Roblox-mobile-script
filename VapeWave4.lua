@@ -11,10 +11,7 @@ task.spawn(function()
             if not game:IsLoaded() then
                 game.Loaded:Wait()
             end
-            loadstring(game:HttpGet("https://raw.githubusercontent.com/MuhXd/Roblox-mobile-script/main/FileFixes.lua"))();
-            loadstring(game:HttpGet("https://raw.githubusercontent.com/7GrandDadPGN/VapeV4ForRoblox/main/NewMainScript.lua", true))()
-            
-
+            loadstring(game:HttpGet("https://github.com/MuhXd/Roblox-mobile-script/blob/main/VapeWave4.lua?raw=true"))();
         ]])
     end
     end)
