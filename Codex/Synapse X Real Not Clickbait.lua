@@ -3,6 +3,7 @@ local text = _G.CodexSpooferText or "Synapse X"
 local powered = _G.CodexSpooferPoweredBy or "Powered by Nameless Admin"
 local gui = _G.Codex or nil
 CodexUi = game:GetService("RunService"):IsStudio() and game.StarterGui.Codex or game:GetService("CoreGui"):WaitForChild("Codex")
+if  gui == nil then
 if CodexUi:FindFirstChild("gui") then
 -- codex
 for i, v in pairs(CodexUi:GetChildren()) do
@@ -31,6 +32,7 @@ else
 				end
 		end
 	end
+end
 end
 end
 if not gui then
