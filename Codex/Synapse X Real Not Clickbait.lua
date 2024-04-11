@@ -5,7 +5,7 @@ local Uis = {
 
 }
 CodexUi = game:GetService("RunService"):IsStudio() and game.StarterGui.Codex or game:GetService("CoreGui"):WaitForChild("Codex")
-if CodexUi:FindFirstChild("Codex"):FindFirstChild("gui") then
+if CodexUi:FindFirstChild("gui") then
 -- codex
 for i, v in pairs(CodexUi:GetChildren()) do
 	v.Parent = game.CoreGui
