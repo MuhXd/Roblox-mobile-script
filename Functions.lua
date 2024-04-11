@@ -30,7 +30,9 @@ function shortenURL(url)
 	local shortName = hash(url)
 	return string.sub(shortName, 1, 10) -- Ensure the result is 10 characters long
 end
-
+funcs.hash = function(text) 
+	return hash(text)
+end
 funcs.GetAssetFiles = function(url) 
 	if (not FileSupport) then
 		return error("Unable to create file - doesn't support File creating")
