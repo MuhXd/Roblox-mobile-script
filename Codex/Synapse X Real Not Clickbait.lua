@@ -1,21 +1,23 @@
 local image = _G.CodexSpooferImage or 9524079125
 local text = _G.CodexSpooferText or "Synapse X"
 local powered = _G.CodexSpooferPoweredBy or "Powered by Nameless Admin"
-local Uis = {
-
-}
+local gui = nil
 CodexUi = game:GetService("RunService"):IsStudio() and game.StarterGui.Codex or game:GetService("CoreGui"):WaitForChild("Codex")
 if CodexUi:FindFirstChild("gui") then
 -- codex
 for i, v in pairs(CodexUi:GetChildren()) do
 	v.Parent = game.CoreGui
 	v:SetAttribute("Codex",true)
-	table.insert(Uis,v)
+		if v.Name == "gui" then
+			gui = v
+		end
 end
 else
 	for i, v in pairs(game:GetService("CoreGui"):GetChildren()) do
 		if v:GetAttribute("Codex") then
-			table.insert(Uis,v)
+			if v.Name == "gui" then
+				gui = v
+			end
 		end
 	end
 end
@@ -26,15 +28,16 @@ function HideForever(object)
 		object.Visible = false
 	end)
 end
-HideForever(Uis.gui.fade)
-Uis.gui.tabs.editor.contentContainer.inputBox.MultiLine = true
-Uis.gui.navbar.floatingIcon.codexIcon2.Image = "http://www.roblox.com/asset/?id="..image
-Uis.gui.navbar.main.codexIcon.Image = "http://www.roblox.com/asset/?id="..image
-Uis.gui.navbar.main.title.Text = text
-Uis.gui.navbar.main.title:GetPropertyChangedSignal("Text"):Connect(function()
-	Uis.gui.navbar.main.title.Text = text
+
+HideForever(gui.fade)
+gui.tabs.editor.contentContainer.inputBox.MultiLine = true
+gui.navbar.floatingIcon.codexIcon2.Image = "http://www.roblox.com/asset/?id="..image
+gui.navbar.main.codexIcon.Image = "http://www.roblox.com/asset/?id="..image
+gui.navbar.main.title.Text = text
+gui.navbar.main.title:GetPropertyChangedSignal("Text"):Connect(function()
+	gui.navbar.main.title.Text = text
 end)
-Uis.gui.navbar.main.poweredBy:GetPropertyChangedSignal("Text"):Connect(function()
-	Uis.gui.navbar.main.poweredBy.Text = powered
+gui.navbar.main.poweredBy:GetPropertyChangedSignal("Text"):Connect(function()
+	gui.navbar.main.poweredBy.Text = powered
 end)
-Uis.gui.navbar.main.poweredBy.Text = powered
+gui.navbar.main.poweredBy.Text = powered
