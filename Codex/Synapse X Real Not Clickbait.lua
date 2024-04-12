@@ -6,7 +6,7 @@ if CodexUi or _G.Codex_gui_Object then
 gui = _G.Codex_gui_Object or CodexUi:WaitForChild("gui")
 end
 if not gui then
-warn("unable to find codex")
+return warn("unable to find codex")
 end
 _G.Codex_gui_Object = gui
 function HideForever(object) 
