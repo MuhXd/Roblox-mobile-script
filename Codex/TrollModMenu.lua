@@ -7,6 +7,5 @@ if not gui then
 end
 
 gui.navbar.floatingIcon.BackgroundColor3 = Color3.fromRGB(36, 102, 2)
-gui.navbar.floatingIcon.BorderColor = Color3.fromRGB(36, 102, 2)
 gui.navbar.floatingIcon.codexIcon2.Image = "rbxassetid://17108310457"
 -- codexIcon2
