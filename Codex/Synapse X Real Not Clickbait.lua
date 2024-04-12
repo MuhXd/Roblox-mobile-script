@@ -17,6 +17,7 @@ function HideForever(object)
 end
 
 HideForever(gui:WaitForChild("fade"))
+task.wait(0.3)
 gui.tabs.editor.contentContainer.inputBox.MultiLine = true
 gui.navbar.floatingIcon.codexIcon2.Image = "http://www.roblox.com/asset/?id="..image
 gui.navbar.main.codexIcon.Image = "http://www.roblox.com/asset/?id="..image
