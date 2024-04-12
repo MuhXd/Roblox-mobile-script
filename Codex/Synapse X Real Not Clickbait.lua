@@ -1,9 +1,8 @@
 local image = _G.CodexSpooferImage or 9524079125
 local text = _G.CodexSpooferText or "Synapse X"
 local powered = _G.CodexSpooferPoweredBy or "Powered by Nameless Admin"
-local gui = _G.Codex_gui_Object or nil
 CodexUi = game:GetService("RunService"):IsStudio() and game.StarterGui.Codex or game:GetService("CoreGui"):WaitForChild("Codex")
-gui = CodexUi:FindFirstChild("gui")
+local gui = _G.Codex_gui_Object or CodexUi:FindFirstChild("gui")
 if not gui then
 warn("unable to find codex")
 end
