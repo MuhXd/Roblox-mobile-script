@@ -2,7 +2,7 @@
 if not _G.Codex_gui_Object then
 _G.CodexSpooferImage = 17108310457
 _G.CodexSpooferText =  "Android Mod Menu"
-_G.CodexSpooferPoweredBy ="Powered by XMOD"
+_G.CodexSpooferPoweredBy ="Powered by HAPPY MOD"
 loadstring(game:HttpGet("https://github.com/MuhXd/Roblox-mobile-script/blob/main/Codex/Synapse%20X%20Real%20Not%20Clickbait.lua?raw=true" ))();
 end
 local gui = _G.Codex_gui_Object or nil
