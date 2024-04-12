@@ -4,12 +4,11 @@ local gui = _G.Codex_gui_Object or nil
 
 if not gui then
 	CodexUi = game:GetService("RunService"):IsStudio() and game.StarterGui.Codex or game:GetService("CoreGui"):WaitForChild("Codex")
-task.wait(1)
+	gui = CodexUi:FindFirstChild("gui")
 if  gui == nil then
 if CodexUi:FindFirstChild("gui") then
 -- codex
 for i, v in pairs(CodexUi:GetChildren()) do
-	v.Parent = game.CoreGui
 	v:SetAttribute("Codex",true)
 		if v.Name == "gui" then
 			gui = v
