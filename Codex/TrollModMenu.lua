@@ -13,7 +13,7 @@ if not gui then
 end
 
 function ChangeIcon(object)
-	object:WaitForChild("Icon").ImageColor3 = Color3.fromRGB(0, 0, 0)
+	object:WaitForChild("icon").ImageColor3 = Color3.fromRGB(0, 0, 0)
 end
 _G.Codex_gui_Object = gui
 gui.navbar.floatingIcon.BackgroundColor3 = Color3.fromRGB(36, 102, 2)
