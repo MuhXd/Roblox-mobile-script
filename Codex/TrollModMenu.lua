@@ -13,7 +13,7 @@ if not gui then
 end
 
 function ChangeIcon(object)
-	object.Icon.ImageColor3 = Color3.fromRGB(0, 0, 0)
+	object:WaitForChild("Icon").ImageColor3 = Color3.fromRGB(0, 0, 0)
 end
 _G.Codex_gui_Object = gui
 gui.navbar.floatingIcon.BackgroundColor3 = Color3.fromRGB(36, 102, 2)
@@ -22,7 +22,9 @@ gui.navbar.main.BackgroundColor3 = Color3.fromRGB(36, 102, 2)
 gui.background.BackgroundColor3 = Color3.fromRGB(36, 102, 2)
 for i,v in pairs(gui.navbar.main.container:GetChildren()) do
 	if v:IsA("TextButton") then
-		ChangeIcon(v)
+		task.spawn(function()
+			ChangeIcon(v)
+		end)
 	end
 end
 ChangeIcon(gui.navbar.main.settings)
