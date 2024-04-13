@@ -18,7 +18,7 @@ function ChangeIcon(object)
 			if 	object:WaitForChild("icon").ImageColor3 == Color3.fromRGB(0, 0, 0) then
 				return;
 			else
-				object:WaitForChild("icon").ImageColor3 = Color3.fromRGB(33, 99, 0)
+				object:WaitForChild("icon").ImageColor3 = Color3.fromRGB(85, 255, 0)
 			end
 		end
 	end)
