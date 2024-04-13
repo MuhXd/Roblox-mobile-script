@@ -15,16 +15,16 @@ end
 function ChangeIcon(object)
 	object:WaitForChild("icon"):GetPropertyChangedSignal("ImageColor3"):Connect(function()
 		if Color3.fromRGB(151, 158, 189) == object:WaitForChild("icon").ImageColor3 then
-			object:WaitForChild("icon").ImageColor3 = Color3.fromRGB(0, 0, 0)
+			object:WaitForChild("icon").ImageColor3 = Color3.fromRGB(255, 255, 255)
 		else
-			if 	object:WaitForChild("icon").ImageColor3 == Color3.fromRGB(0, 0, 0) then
+			if 	object:WaitForChild("icon").ImageColor3 == Color3.fromRGB(255, 255, 255) then
 				return;
 			else
 				object:WaitForChild("icon").ImageColor3 = Color3.fromRGB(0, 128, 255)
 			end
 		end
 	end)
-	object:WaitForChild("icon").ImageColor3 = Color3.fromRGB(0, 0, 0)
+	object:WaitForChild("icon").ImageColor3 = Color3.fromRGB(255, 255, 255)
 end
 
 _G.Codex_gui_Object = gui
@@ -43,6 +43,17 @@ for i,v in pairs(gui.navbar.main.container:GetChildren()) do
 		task.spawn(function()
 			ChangeIcon(v)
 		end)
+	end
+end
+for ic,cc in pairs(gui.tabs:GetChildren()) do
+	if cc:FindFirstChild("buttons") then
+	for i,v in pairs(cc.buttons:GetChildren()) do
+	if v:IsA("TextButton") then
+		task.spawn(function()
+			ChangeIcon(v)
+		end)
+	end
+	end
 	end
 end
 ChangeIcon(gui.navbar.main.settings)
