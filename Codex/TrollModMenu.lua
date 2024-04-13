@@ -11,6 +11,17 @@ if not gui then
 end
 
 function ChangeIcon(object)
+	object:WaitForChild("icon"):GetPropertyChangedSignal("ImageColor3"):Connect(function()
+		if Color3.fromRGB(151, 158, 189) == object:WaitForChild("icon").ImageColor3 then
+			object:WaitForChild("icon").ImageColor3 = Color3.fromRGB(0, 0, 0)
+		else
+			if 	object:WaitForChild("icon").ImageColor3 == Color3.fromRGB(0, 0, 0) then
+				return;
+			else
+				object:WaitForChild("icon").ImageColor3 = Color3.fromRGB(33, 99, 0)
+			end
+		end
+	end)
 	object:WaitForChild("icon").ImageColor3 = Color3.fromRGB(0, 0, 0)
 end
 _G.Codex_gui_Object = gui
