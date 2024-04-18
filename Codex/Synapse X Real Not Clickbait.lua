@@ -74,11 +74,13 @@ else
 	gui.navbar.floatingIcon.codexIcon2.Image = "http://www.roblox.com/asset/?id="..image
 	gui.navbar.main.codexIcon.Image = "http://www.roblox.com/asset/?id="..image
 	gui.navbar.main.title.Text = text
-	
+
 	local function ChangeIcon(object)
-		local icon = object:WaitForChild("icon"):GetPropertyChangedSignal("ImageColor3"):Connect(function()
-			if icon and _G.LoadedCodexSwitcher ~= patch then
-				icon:Disconnect()
+		local iconConnection
+		local icon = object:WaitForChild("icon")
+		iconConnection = icon:GetPropertyChangedSignal("ImageColor3"):Connect(function()
+			if iconConnection and _G.LoadedCodexSwitcher ~= patch then
+				iconConnection:Disconnect()
 			end
 			if Color3.fromRGB(151, 158, 189) == object:WaitForChild("icon").ImageColor3 then
 				object:WaitForChild("icon").ImageColor3 = IconsOff
@@ -92,7 +94,7 @@ else
 		end)
 		object:WaitForChild("icon").ImageColor3 = IconsOff
 	end
-	
+
 	gui.navbar.floatingIcon.BackgroundColor3 = floatingColor
 	gui.navbar.main.BackgroundColor3 = MainUiBackground
 	gui.background.BackgroundColor3 = MainUiBackground
@@ -104,7 +106,7 @@ else
 		end
 	end
 	ChangeIcon(gui.navbar.main.settings)
-	
+
 	title = gui.navbar.main.title:GetPropertyChangedSignal("Text"):Connect(function()
 		if title and _G.LoadedCodexSwitcher ~= patch then
 			title:Disconnect()
