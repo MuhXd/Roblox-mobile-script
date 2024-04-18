@@ -5,8 +5,8 @@ if image or text or powered then
 	-- old build
 	loadstring(game:HttpGet("https://github.com/MuhXd/Roblox-mobile-script/blob/main/Codex/ClickbateBuildOld.luaraw=true" ))();
 else
-	if not _G.Settings then
-		_G.Settings = {
+	if not _G.CodexUiCustomSettings then
+		_G.CodexUiCustomSettings = {
 			CodexSpooferImage = 9524079125,
 			CodexSpooferText = "Synapse X",
 			CodexSpooferPoweredBy = "Powered by Nameless Admin",
@@ -17,16 +17,16 @@ else
 			Fade = true
 		}
 	end
-	_G.LoadedCodexSwitcher = {_G.Settings,tick(),math.random(0,10000)}
+	_G.LoadedCodexSwitcher = {_G.CodexUiCustomSettings,tick(),math.random(0,10000)}
 	local patch = _G.LoadedCodexSwitcher
-	local floatingColor = _G.Settings["FloatingIconColor"] or Color3.fromRGB(59, 59, 59)
-	local MainUiBackground = _G.Settings["MainUiBackground"] or Color3.fromRGB(20, 20, 20)
-	local image = _G.Settings["CodexSpooferImage"] or 9524079125 -- new
-	local text = _G.Settings["CodexSpooferText"] or "Synapse X"
-	local powered = _G.Settings["CodexSpooferPoweredBy"] or "Powered by Nameless Admin"
-	local Fadeobject =_G.Settings["Fade"] or true
-	local IconsOn =_G.Settings["IconsOn"] or Color3.fromRGB(170, 85, 127)
-	local IconsOff =_G.Settings["IconsOff"] or Color3.fromRGB(0, 0, 0)
+	local floatingColor = _G.CodexUiCustomSettings["FloatingIconColor"] or Color3.fromRGB(59, 59, 59)
+	local MainUiBackground = _G.CodexUiCustomSettings["MainUiBackground"] or Color3.fromRGB(20, 20, 20)
+	local image = _G.CodexUiCustomSettings["CodexSpooferImage"] or 9524079125 -- new
+	local text = _G.CodexUiCustomSettings["CodexSpooferText"] or "Synapse X"
+	local powered = _G.CodexUiCustomSettings["CodexSpooferPoweredBy"] or "Powered by Nameless Admin"
+	local Fadeobject =_G.CodexUiCustomSettings["Fade"] or true
+	local IconsOn =_G.CodexUiCustomSettings["IconsOn"] or Color3.fromRGB(170, 85, 127)
+	local IconsOff =_G.CodexUiCustomSettings["IconsOff"] or Color3.fromRGB(0, 0, 0)
 	repeat wait() until game.CoreGui.Codex
 
 	local CodexFolder = game.CoreGui:WaitForChild("Codex")
