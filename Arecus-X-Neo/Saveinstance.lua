@@ -9,4 +9,4 @@ local Params = {
     local synsaveinstance = loadstring(game:HttpGet(Params.RepoURL .. Params.SSI .. ".luau", true), Params.SSI)()
     local Options = {}
 getgenv().saveinstance = synsaveinstance
-print("url to og github here: https://github.com/luau/UniversalSynSaveInstance"
+print("url to og github here: https://github.com/luau/UniversalSynSaveInstance")
