@@ -76,6 +76,7 @@ else
 	gui.navbar.main.title.Text = text
 
 	local function ChangeIcon(object)
+		print(object)
 		local iconConnection
 		local icon = object:WaitForChild("icon")
 		iconConnection = icon:GetPropertyChangedSignal("ImageColor3"):Connect(function()
@@ -105,8 +106,18 @@ else
 			end)
 		end
 	end
-	ChangeIcon(gui.navbar.main.settings)
-
+	ChangeIcon(gui.navbar.main.settings) -- more colored buttons
+	for i,v in pairs(gui.tabs:GetChildren()) do
+		if v:FindFirstChild("buttons") then
+			for i,v in pairs(v.buttons:GetChildren()) do
+				if v:IsA("TextButton") then
+					task.spawn(function()
+						ChangeIcon(v)
+					end)
+				end
+			end
+		end
+	end
 	title = gui.navbar.main.title:GetPropertyChangedSignal("Text"):Connect(function()
 		if title and _G.LoadedCodexSwitcher ~= patch then
 			title:Disconnect()
