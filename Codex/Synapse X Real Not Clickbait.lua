@@ -1,31 +1,121 @@
-local image = _G.CodexSpooferImage or 9524079125
-local text = _G.CodexSpooferText or "Synapse X"
-local powered = _G.CodexSpooferPoweredBy or "Powered by Nameless Admin"
-CodexUi = game:GetService("RunService"):IsStudio() and game.StarterGui.Codex or game:GetService("CoreGui"):WaitForChild("Codex")
-if CodexUi or _G.Codex_gui_Object then
-gui = _G.Codex_gui_Object or CodexUi:WaitForChild("gui")
-end
-if not gui then
-return warn("unable to find codex")
-end
-_G.Codex_gui_Object = gui
-function HideForever(object) 
-	object.Visible = false
-	object:GetPropertyChangedSignal("Visible"):Connect(function()
-		object.Visible = false
-	end)
-end
+local image = _G.CodexSpooferImage or nil -- 9524079125
+local text = _G.CodexSpooferText or nil-- "Synapse X"
+local powered = _G.CodexSpooferPoweredBy or nil-- "Powered by Nameless Admin"
+if image or text or powered then
+	-- old build
+	loadstring(game:HttpGet("https://github.com/MuhXd/Roblox-mobile-script/blob/main/Codex/ClickbateBuildOld.luaraw=true" ))();
+else
+	if not _G.Settings then
+		_G.Settings = {
+			CodexSpooferImage = 9524079125,
+			CodexSpooferText = "Synapse X",
+			CodexSpooferPoweredBy = "Powered by Nameless Admin",
+			FloatingIconColor=Color3.fromRGB(59, 59, 59),
+			MainUiBackground = Color3.fromRGB(20, 20, 20),
+			Icons=Color3.fromRGB(170, 85, 127),
+			IconsOff = Color3.fromRGB(0, 0, 0),
+			Fade = true
+		}
+	end
+	_G.LoadedCodexSwitcher = {_G.Settings,tick(),math.random(0,10000)}
+	local patch = _G.LoadedCodexSwitcher
+	local floatingColor = _G.Settings["FloatingIconColor"] or Color3.fromRGB(59, 59, 59)
+	local MainUiBackground = _G.Settings["MainUiBackground"] or Color3.fromRGB(20, 20, 20)
+	local image = _G.Settings["CodexSpooferImage"] or 9524079125 -- new
+	local text = _G.Settings["CodexSpooferText"] or "Synapse X"
+	local powered = _G.Settings["CodexSpooferPoweredBy"] or "Powered by Nameless Admin"
+	local Fadeobject =_G.Settings["Fade"] or true
+	local IconsOn =_G.Settings["IconsOn"] or Color3.fromRGB(170, 85, 127)
+	local IconsOff =_G.Settings["IconsOff"] or Color3.fromRGB(0, 0, 0)
+	repeat wait() until game.CoreGui.Codex
 
-HideForever(gui:WaitForChild("fade"))
-task.wait(0.3)
-gui.tabs.editor.contentContainer.inputBox.MultiLine = true
-gui.navbar.floatingIcon.codexIcon2.Image = "http://www.roblox.com/asset/?id="..image
-gui.navbar.main.codexIcon.Image = "http://www.roblox.com/asset/?id="..image
-gui.navbar.main.title.Text = text
-gui.navbar.main.title:GetPropertyChangedSignal("Text"):Connect(function()
+	local CodexFolder = game.CoreGui:WaitForChild("Codex")
+
+	spawn(function()
+		if CodexFolder and CodexFolder:IsA("Folder") then
+			wait(12)
+			local gui = Instance.new("ScreenGui")
+			gui.Name = "Codex"
+			for _, child in ipairs(CodexFolder:GetChildren()) do
+				child.Parent = gui
+			end
+			gui.Parent = game.CoreGui
+			CodexFolder:Destroy()
+		end
+	end)
+
+	local curUi = game.CoreGui:WaitForChild("Codex").gui
+
+	local CodexUi = game:GetService("RunService"):IsStudio() and game.StarterGui.Codex or game:GetService("CoreGui"):WaitForChild("Codex")
+	local gui = nil
+	if CodexUi or _G.Codex_gui_Object then
+		gui = _G.Codex_gui_Object or curUi
+	end
+
+	if not gui then
+		return warn("unable to find codex")
+	end
+
+	_G.Codex_gui_Object = gui
+
+	local function HideForever(object) 
+		object.Visible = false
+		Patch1 = object:GetPropertyChangedSignal("Visible"):Connect(function()
+			if Patch1 and _G.LoadedCodexSwitcher ~= patch then
+				Patch1:Disconnect()
+			end
+			object.Visible = false
+		end)
+	end
+	if Fadeobject then
+		HideForever(gui:WaitForChild("fade"))
+	end
+	gui.tabs.editor.contentContainer.inputBox.MultiLine = true
+	gui.navbar.floatingIcon.codexIcon2.Image = "http://www.roblox.com/asset/?id="..image
+	gui.navbar.main.codexIcon.Image = "http://www.roblox.com/asset/?id="..image
 	gui.navbar.main.title.Text = text
-end)
-gui.navbar.main.poweredBy:GetPropertyChangedSignal("Text"):Connect(function()
+	
+	local function ChangeIcon(object)
+		local icon = object:WaitForChild("icon"):GetPropertyChangedSignal("ImageColor3"):Connect(function()
+			if icon and _G.LoadedCodexSwitcher ~= patch then
+				icon:Disconnect()
+			end
+			if Color3.fromRGB(151, 158, 189) == object:WaitForChild("icon").ImageColor3 then
+				object:WaitForChild("icon").ImageColor3 = IconsOff
+			else
+				if 	object:WaitForChild("icon").ImageColor3 == IconsOff then
+					return;
+				else
+					object:WaitForChild("icon").ImageColor3 = IconsOn
+				end
+			end
+		end)
+		object:WaitForChild("icon").ImageColor3 = IconsOff
+	end
+	
+	gui.navbar.floatingIcon.BackgroundColor3 = floatingColor
+	gui.navbar.main.BackgroundColor3 = MainUiBackground
+	gui.background.BackgroundColor3 = MainUiBackground
+	for i,v in pairs(gui.navbar.main.container:GetChildren()) do
+		if v:IsA("TextButton") then
+			task.spawn(function()
+				ChangeIcon(v)
+			end)
+		end
+	end
+	ChangeIcon(gui.navbar.main.settings)
+	
+	title = gui.navbar.main.title:GetPropertyChangedSignal("Text"):Connect(function()
+		if title and _G.LoadedCodexSwitcher ~= patch then
+			title:Disconnect()
+		end
+		gui.navbar.main.title.Text = text
+	end)
+	title1 = gui.navbar.main.poweredBy:GetPropertyChangedSignal("Text"):Connect(function()
+		if title1 and _G.LoadedCodexSwitcher ~= patch then
+			title1:Disconnect()
+		end
+		gui.navbar.main.poweredBy.Text = powered
+	end)
 	gui.navbar.main.poweredBy.Text = powered
-end)
-gui.navbar.main.poweredBy.Text = powered
+end
