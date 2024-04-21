@@ -95,7 +95,7 @@ else
 			end
 		end)
 		object:WaitForChild("icon").ImageColor3 = IconsOff
-		iconConnections[object] = iconConnection
+		iconConnections[#iconConnections] = iconConnection
 	end
 
 	gui.navbar.floatingIcon.BackgroundColor3 = floatingColor
