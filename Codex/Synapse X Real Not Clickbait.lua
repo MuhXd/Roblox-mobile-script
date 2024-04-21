@@ -84,17 +84,17 @@ else
 		local icon = object:WaitForChild("icon")
 		
 		iconConnection = icon:GetPropertyChangedSignal("ImageColor3"):Connect(function()
-			if Color3.fromRGB(151, 158, 189) == object:WaitForChild("icon").ImageColor3 then
-				object:WaitForChild("icon").ImageColor3 = IconsOff
+			if Color3.fromRGB(151, 158, 189) == icon.ImageColor3 then
+				icon.ImageColor3 = IconsOff
 			else
-				if 	object:WaitForChild("icon").ImageColor3 == IconsOff then
+				if 	icon.ImageColor3 == IconsOff then
 					return;
 				else
-					object:WaitForChild("icon").ImageColor3 = IconsOn
+					icon.ImageColor3 = IconsOn
 				end
 			end
 		end)
-		object:WaitForChild("icon").ImageColor3 = IconsOff
+		icon.ImageColor3 = IconsOff
 		iconConnections[#iconConnections] = iconConnection
 	end
 
