@@ -84,7 +84,8 @@ else
 		local icon = object:WaitForChild("icon")
 		
 		iconConnection = icon:GetPropertyChangedSignal("ImageColor3"):Connect(function()
-			if Color3.new(0.666667,0.333333,0.498039) == icon.ImageColor3 then
+				warn(Color3.fromRGB(151, 158, 189) == icon.ImageColor3)
+			if Color3.fromRGB(151, 158, 189) == icon.ImageColor3 then
 				icon.ImageColor3 = IconsOff
 			else
 				if 	icon.ImageColor3 == IconsOff then
