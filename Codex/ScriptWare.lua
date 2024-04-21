@@ -12,5 +12,5 @@ _G.CodexSpooferImage  = nil -- Old Build DO NOT TOUCH UNLESS YOU WANT THE OLD VE
 _G.CodexSpooferText = nil
 _G.CodexSpooferPoweredBy = nil 
 loadstring(game:HttpGet("https://github.com/MuhXd/Roblox-mobile-script/blob/main/Codex/Synapse%20X%20Real%20Not%20Clickbait.lua?raw=true" ))();
-_G.Codex_gui_Object.gui.navbar.main.BorderColor3 = Color3.fromRGB(0, 0, 127)
-_G.Codex_gui_Object.gui.navbar.main.BorderSizePixel = 3
+_G.Codex_gui_Object.navbar.main.BorderColor3 = Color3.fromRGB(0, 0, 127)
+_G.Codex_gui_Object.navbar.main.BorderSizePixel = 3
