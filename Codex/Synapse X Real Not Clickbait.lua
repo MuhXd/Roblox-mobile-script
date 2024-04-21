@@ -74,15 +74,16 @@ else
 	gui.navbar.floatingIcon.codexIcon2.Image = "http://www.roblox.com/asset/?id="..image
 	gui.navbar.main.codexIcon.Image = "http://www.roblox.com/asset/?id="..image
 	gui.navbar.main.title.Text = text
-
+	if _G.LoadedCodexSwitcherHooks  then
+	for i,v in pairs(_G.LoadedCodexSwitcherHooks) do if v then pcall(function() v:Disconnect() end) end end -- yes
+	_G.LoadedCodexSwitcherHooks = {}
+	end
+	local iconConnections = {}
 	local function ChangeIcon(object)
-		print(object)
 		local iconConnection
 		local icon = object:WaitForChild("icon")
+		iconConnections[object] = iconConnection
 		iconConnection = icon:GetPropertyChangedSignal("ImageColor3"):Connect(function()
-			if iconConnection and _G.LoadedCodexSwitcher ~= patch then
-				iconConnection:Disconnect()
-			end
 			if Color3.fromRGB(151, 158, 189) == object:WaitForChild("icon").ImageColor3 then
 				object:WaitForChild("icon").ImageColor3 = IconsOff
 			else
@@ -131,4 +132,5 @@ else
 		gui.navbar.main.poweredBy.Text = powered
 	end)
 	gui.navbar.main.poweredBy.Text = powered
+	_G.LoadedCodexSwitcherHooks = {["Icons"] = iconConnections }
 end
