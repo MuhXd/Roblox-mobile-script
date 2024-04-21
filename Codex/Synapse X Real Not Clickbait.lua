@@ -82,7 +82,7 @@ else
 	local function ChangeIcon(object)
 		local iconConnection
 		local icon = object:WaitForChild("icon")
-		iconConnections[object] = iconConnection
+		
 		iconConnection = icon:GetPropertyChangedSignal("ImageColor3"):Connect(function()
 			if Color3.fromRGB(151, 158, 189) == object:WaitForChild("icon").ImageColor3 then
 				object:WaitForChild("icon").ImageColor3 = IconsOff
@@ -95,6 +95,7 @@ else
 			end
 		end)
 		object:WaitForChild("icon").ImageColor3 = IconsOff
+		iconConnections[object] = iconConnection
 	end
 
 	gui.navbar.floatingIcon.BackgroundColor3 = floatingColor
