@@ -1,6 +1,6 @@
 -- new stuff
 _G.CodexUiCustomSettings = {
-			CodexSpooferImage = 17108310457
+			CodexSpooferImage = 17108310457,
 			CodexSpooferText = "Android Mod Menu",
 			CodexSpooferPoweredBy = "Powered by HAPPY MOD",
 			FloatingIconColor=Color3.fromRGB(36, 102, 2),
