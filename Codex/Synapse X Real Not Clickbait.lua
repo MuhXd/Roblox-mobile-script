@@ -87,10 +87,9 @@ else
 			if Color3.fromRGB(151, 158, 189) == icon.ImageColor3 then
 				icon.ImageColor3 = IconsOff
 			else
-				if 	icon.ImageColor3 == IconsOff then
+				if icon.ImageColor3 == IconsOff or icon.ImageColor3 == IconsOn then
 					return;
 				else
-						warn(object.Name)
 					icon.ImageColor3 = IconsOn
 				end
 			end
