@@ -93,7 +93,7 @@ else
 					icon.ImageColor3 = IconsOn
 				end
 			end
-				warn(icon.ImageColor3)
+				warn(icon.Name,icon.ImageColor3)
 		end)
 		icon.ImageColor3 = IconsOff
 		iconConnections[#iconConnections] = iconConnection
