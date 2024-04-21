@@ -3,7 +3,7 @@ local text = _G.CodexSpooferText or nil-- "Synapse X"
 local powered = _G.CodexSpooferPoweredBy or nil-- "Powered by Nameless Admin"
 if image or text or powered then
 	-- old build
-	loadstring(game:HttpGet("https://github.com/MuhXd/Roblox-mobile-script/blob/main/Codex/ClickbateBuildOld.luaraw=true" ))();
+	loadstring(game:HttpGet("https://github.com/MuhXd/Roblox-mobile-script/blob/main/Codex/ClickbateBuildOld.lua?raw=true" ))();
 else
 	if not _G.CodexUiCustomSettings then
 		_G.CodexUiCustomSettings = {
