@@ -94,8 +94,8 @@ else
 				end
 			end
 		end)
+		table.insert(iconConnections, iconConnection)
 		icon.ImageColor3 = IconsOff
-		iconConnections[#iconConnections] = iconConnection
 	end
 
 	gui.navbar.floatingIcon.BackgroundColor3 = floatingColor
