@@ -25,11 +25,14 @@ function SetupIds(index, object)
 end
 
 if identifyexecutor() == "Fluxus" then
+	
 	if FluxusUINodeIds then
 		-- do not annoy the user with 5+ prints for already running
 		return
 	end
+	
 	local fluxusUI = game:GetService("CoreGui"):WaitForChild("FluxusAndroidUI")
+	
 	for i,v in pairs(fluxusUI:GetDescendants()) do 
 		SetupIds(i,v)
 	end
