@@ -33,7 +33,9 @@ if identifyexecutor() == "Fluxus" then
 	for i,v in pairs(fluxusUI:GetDescendants()) do 
 		SetupIds(i,v)
 	end
+	
 	getgenv().FluxusUINodeIds = true
+	
 	print("Provided Node Ids for Fluxus")
 else
 	warn("You are not on fluxus")
