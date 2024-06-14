@@ -1,6 +1,6 @@
 -- Like geode node ids just for Fluxus
 local debugmode = false
-
+local Editors = {}
 local ids = {
 	[156] = "IconDraggable";
 	[159] = "Script Editor";
@@ -14,10 +14,20 @@ local ids = {
 	[202] = "TemplateTab";
 	[3] = "Template Selector";
 }
+local Back
+local editor = {
+	"Script Editor";
+	"Online Scripts";
+	"Script Editor";
+	"Console";
+	"Settings Selectors";
+}
+
 local UISelectors
 local TemplateTab
 local Selector
 local UI
+local currentSelectedUi
 function SetupIds(index, object)
 	if debugmode then
 		print(index,object.Name)
@@ -32,9 +42,27 @@ if identifyexecutor() == "Fluxus" then
 		-- do not annoy the user with 5+ prints for already running
 		return
 	end
+	local function vis(v)
+		v:GetPropertyChangedSignal("Visible"):Connect(function()
+			if v.Visible then
+				if v.Name == "Settings Selectors" then
+					currentSelectedUi = "Settings"
+				else
+					currentSelectedUi = v.Name
+				end
+				print(currentSelectedUi)
+			elseif v.Visible == false and v.Name == currentSelectedUi then
+				currentSelectedUi = nil	
+			end
+			
+		end)
+	end
 	local fluxusUI = game:GetService("CoreGui"):WaitForChild("FluxusAndroidUI")
 	for i,v in pairs(fluxusUI:GetDescendants()) do 
 		SetupIds(i,v)
+		if v.Name == "Back" then
+			Back = v
+		end
 		if v.Name == "TemplateTab" then
 			TemplateTab = v
 		end
@@ -46,7 +74,11 @@ if identifyexecutor() == "Fluxus" then
 			UI = v:FindFirstChild("Settings"):Clone()
 			UI.Parent = nil
 		end
+		if table.find(editor,v.Name) then
+			vis(v)
+		end
 	end
+	
 	local function Close()
 		if firesignal then
 			firesignal(fluxusUI.LeftBarFrame.Logo.MouseButton1Down)
@@ -58,24 +90,62 @@ if identifyexecutor() == "Fluxus" then
 			end
 		end
 	end
-	
+	local function ShowUi(Object)
+		Object.Visible = true
+		Object.Position = UDim2.new(0.1, 100,0, 0)
+		Object.Size = UDim2.new(0.9, -100,1, 0)
+	end
 	getgenv().FluxusUINodeIds = true
+	currentSelectedUi = nil
+	
 	
 	getgenv().FluxusUINodeIdsApi = {
 		["CreateTemplate"] = function(Name,TemplateArea)
-			if TemplateArea then
-				
-			end
+			local Tem
+			local sel
+			local back
 			local R = UI:Clone()
 			R.Name = Name
 			R.Parent = UISelectors
 			R.TextButton.Text = Name
-			return {["Frame"] = R; ["TextButton"] = R.TextButton}
-		end,
-		["CloseUi"] = Close
+			if TemplateArea then
+				sel = Selector:Clone()
+				sel.Parent = fluxusUI:FindFirstChild("LeftBarFrame")
+				Tem = TemplateTab:Clone()
+				Tem.Name = Name.."'s_UI"
+				Tem.Parent = fluxusUI
+				back = Back:Clone()
+				back.Parent = sel
+				back.TextButton.MouseButton1Down:Connect(function()
+					if currentSelectedUi ~= nil then
+						UISelectors.Visible = true
+						sel.Visible = false
+						Tem.Visible = false
+					end
+				end)
+				vis(Tem)
+				R.TextButton.MouseButton1Down:Connect(function()
+					if currentSelectedUi == nil then
+						UISelectors.Visible = false
+						sel.Visible = true
+						ShowUi(Tem)
+					end
+				end)
+			end
+			
+			return {
+				["Frame"] = R;
+				["TextButton"] = R.TextButton; 
+				["Selector"] = sel; 
+				["UI"] = Tem;
+				}
+		end;
+		["CloseUi"] = Close;
 	}
 	
 	local Exit = FluxusUINodeIdsApi.CreateTemplate("Close", false)
+	
+--	local eee = FluxusUINodeIdsApi.CreateTemplate("eee", true) unfinished api
 	
 	Exit["TextButton"].MouseButton1Down:Connect(function()
 		FluxusUINodeIdsApi.CloseUi()
