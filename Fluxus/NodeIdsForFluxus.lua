@@ -75,7 +75,7 @@ if identifyexecutor() == "Fluxus" then
 		["CloseUi"] = Close
 	}
 	
-	local Exit = FluxusUINodeIdsApi.CreateTemplate("Exit", false)
+	local Exit = FluxusUINodeIdsApi.CreateTemplate("Close", false)
 	
 	Exit["TextButton"].MouseButton1Down:Connect(function()
 		FluxusUINodeIdsApi.CloseUi()
