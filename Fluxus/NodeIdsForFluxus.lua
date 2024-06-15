@@ -27,10 +27,16 @@ local editor = {
 
 local UISelectors
 local TemplateTab
+local setttingmenu
 local Selector
 local UI
 local old 
 local logo
+local toggle
+local togglecolors = {
+	["On"] = 	Color3.fromRGB(103, 61, 234);
+	["Off"] = 	Color3.fromRGB(70, 70, 72);
+}
 local currentSelectedUi
 function SetupIds(index, object)
 	if debugmode then
@@ -39,6 +45,10 @@ function SetupIds(index, object)
 	if ids[index] then
 		object.Name = ids[index]
 	end
+end
+local Files = isfile and isfolder and writefile and readfile
+if not isfolder('FluxusNodeIds') then
+	makefolder('FluxusNodeIds')
 end
 
 if identifyexecutor() == "Fluxus" then
@@ -72,6 +82,12 @@ if identifyexecutor() == "Fluxus" then
 		if v.Name == "Template Selector" then
 			Selector = v
 		end
+		if v.Name == "Settings Selectors" then
+			setttingmenu = v
+			toggle = v:FindFirstChild("Toggle"):Clone()
+			toggle.Selector.BackgroundColor3 = togglecolors["Off"]
+			toggle.Parent = nil
+		end
 		if v.Name == "UI Selectors" then
 			UISelectors = v
 			UI = v:FindFirstChild("Settings"):Clone()
@@ -79,6 +95,20 @@ if identifyexecutor() == "Fluxus" then
 		end
 		if table.find(editor,v.Name) then
 			vis(v)
+		end
+	end
+	for i,v in pairs(UISelectors:GetChildren()) do
+		if v.Name == "Cloud" then
+			v.LayoutOrder = 200
+		end
+		if v.Name == "Executor" then
+			v.LayoutOrder = 100
+		end
+		if v.Name == "Console" then
+			v.LayoutOrder = 300
+		end
+		if v.Name == "Settings" then
+			v.LayoutOrder = 400
 		end
 	end
 	logo = fluxusUI.LeftBarFrame.Logo
@@ -110,6 +140,26 @@ if identifyexecutor() == "Fluxus" then
 	
 	local hook 
 	getgenv().FluxusUINodeIdsApi = {
+		["NewSettings"] = function(Name,ID,CallBack)
+			local F = toggle:Clone()
+			F:FindFirstChild("Text").Text = Name
+			F.Parent = setttingmenu
+			local en = false
+			F:FindFirstChild("Selector").MouseButton1Down:Connect(function()
+				en = not en
+				if en then
+					F:FindFirstChild("Selector").BackgroundColor3 = togglecolors["On"]
+				else
+					F:FindFirstChild("Selector").BackgroundColor3 = togglecolors["Off"]
+				end
+				if Files then
+					writefile("FluxusNodeIds/"..ID,"Enabled:"..en)
+				end
+				if CallBack then
+					CallBack()
+				end
+			end)
+		end;
 		["CreateTemplate"] = function(Name,TemplateArea)
 			local Tem
 			local sel
@@ -117,6 +167,7 @@ if identifyexecutor() == "Fluxus" then
 			local R = UI:Clone()
 			R.Name = Name
 			R.Parent = UISelectors
+			R.LayoutOrder = 500
 			R.TextButton.Text = Name
 			if TemplateArea then
 				sel = Selector:Clone()
@@ -178,7 +229,7 @@ if identifyexecutor() == "Fluxus" then
 	end)
 	
 	local Exit = FluxusUINodeIdsApi.CreateTemplate("Close", false)
-	
+	Exit["Frame"].LayoutOrder = 99999
    -- local eee = FluxusUINodeIdsApi.CreateTemplate("eee", true) -- unfinished api
 	
 	Exit["TextButton"].MouseButton1Down:Connect(function()
