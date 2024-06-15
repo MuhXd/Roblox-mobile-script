@@ -37,6 +37,8 @@ local togglecolors = {
 	["On"] = 	Color3.fromRGB(103, 61, 234);
 	["Off"] = 	Color3.fromRGB(70, 70, 72);
 }
+local SaveSettings = {
+}
 local currentSelectedUi
 function SetupIds(index, object)
 	if debugmode then
@@ -46,11 +48,37 @@ function SetupIds(index, object)
 		object.Name = ids[index]
 	end
 end
-local Files = isfile and isfolder and writefile and readfile
+local Files = isfile and isfolder and writefile and readfile and makefolder
 if not isfolder('FluxusNodeIds') then
 	makefolder('FluxusNodeIds')
 end
-
+local LoadSettings = {}
+function feach()
+	if not Files then
+		return false
+	end
+	if not isfile("FluxusNodeIds/Mods.Fluxus") then
+		return true
+	end
+	local index
+	local val
+	local s = false
+	for i,v in pairs(readfile("FluxusNodeIds/Mods.Fluxus"):split("|")) do
+		if index and val then
+			LoadSettings[index] = val
+			index = nil
+			val = nil
+			s = true
+		end
+		if not index and s == false then
+			index = v
+		elseif not val and s == false then
+			val = v
+		end
+		s = false
+	end
+	return true
+end
 if identifyexecutor() == "Fluxus" then
 	if FluxusUINodeIds then
 		-- do not annoy the user with 5+ prints for already running
@@ -139,24 +167,39 @@ if identifyexecutor() == "Fluxus" then
 	currentSelectedUi = nil
 	
 	local hook 
+	feach()
 	getgenv().FluxusUINodeIdsApi = {
-		["NewSettings"] = function(Name,ID,CallBack)
+		["NewSetting"] = function(Name,ID,def,CallBack)
+			if string.find(ID,"|") then
+				return error("Invalid char, '|'")
+			end
+			
 			local F = toggle:Clone()
 			F:FindFirstChild("Text").Text = Name
 			F.Parent = setttingmenu
-			local en = false
-			F:FindFirstChild("Selector").MouseButton1Down:Connect(function()
-				en = not en
-				if en then
-					F:FindFirstChild("Selector").BackgroundColor3 = togglecolors["On"]
+			local sel = F:WaitForChild("Selector")
+			
+			local function sprite(s)
+				if tostring(s) == "true" then -- stops umm loading breaking
+					sel.BackgroundColor3 = togglecolors["On"]
 				else
-					F:FindFirstChild("Selector").BackgroundColor3 = togglecolors["Off"]
+					sel.BackgroundColor3 = togglecolors["Off"]
 				end
-				if Files then
-					writefile("FluxusNodeIds/"..ID,"Enabled:"..en)
-				end
+			end
+			if LoadSettings[ID] ~= nil then
+				SaveSettings[ID] = LoadSettings[ID] 
+			elseif def ~= nil then
+				SaveSettings[ID] = def
+			else
+				SaveSettings[ID] = false
+			end
+			CallBack(SaveSettings[ID])
+			sprite(SaveSettings[ID])
+			F:FindFirstChild("Selector").MouseButton1Down:Connect(function()
+				SaveSettings[ID] = not SaveSettings[ID]
+				sprite(SaveSettings[ID])
 				if CallBack then
-					CallBack()
+					CallBack(SaveSettings[ID])
 				end
 			end)
 		end;
@@ -230,7 +273,10 @@ if identifyexecutor() == "Fluxus" then
 	
 	local Exit = FluxusUINodeIdsApi.CreateTemplate("Close", false)
 	Exit["Frame"].LayoutOrder = 99999
-   -- local eee = FluxusUINodeIdsApi.CreateTemplate("eee", true) -- unfinished api
+	local eee = FluxusUINodeIdsApi.CreateTemplate("eee", true) -- unfinished api
+	local E = FluxusUINodeIdsApi.NewSetting("E","Viper.Example",false, function(e)
+		print(e)
+	end) -- unfinished api
 	
 	Exit["TextButton"].MouseButton1Down:Connect(function()
 		FluxusUINodeIdsApi.CloseUi()
@@ -240,3 +286,17 @@ if identifyexecutor() == "Fluxus" then
 else
 	warn("You are not on fluxus")
 end
+function saveSettingsFile()
+	if Files then
+		local stringSave = ""
+		for i,v in pairs(SaveSettings) do
+			stringSave = i.."|"..tostring(v).."|"
+		end
+		writefile("FluxusNodeIds/Mods.Fluxus",stringSave)
+	end
+end
+game.Players.PlayerRemoving:Connect(function(plr)
+	if plr == game.Players.LocalPlayer then
+		saveSettingsFile()
+	end
+end)
