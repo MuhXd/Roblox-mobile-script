@@ -273,10 +273,10 @@ if identifyexecutor() == "Fluxus" then
 	
 	local Exit = FluxusUINodeIdsApi.CreateTemplate("Close", false)
 	Exit["Frame"].LayoutOrder = 99999
-	local eee = FluxusUINodeIdsApi.CreateTemplate("eee", true) -- unfinished api
-	local E = FluxusUINodeIdsApi.NewSetting("E","Viper.Example",false, function(e)
-		print(e)
-	end) -- unfinished api
+	--local eee = FluxusUINodeIdsApi.CreateTemplate("eee", true) -- unfinished api
+	--local E = FluxusUINodeIdsApi.NewSetting("E","Viper.Example",false, function(e)
+	--	print(e)
+	--end) -- unfinished api
 	
 	Exit["TextButton"].MouseButton1Down:Connect(function()
 		FluxusUINodeIdsApi.CloseUi()
