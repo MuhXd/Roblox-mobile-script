@@ -1,6 +1,8 @@
 -- Like geode node ids just for Fluxus
 local debugmode = false
+
 local Editors = {}
+local hhhhhh={}
 local ids = {
 	[156] = "IconDraggable";
 	[159] = "Script Editor";
@@ -27,6 +29,8 @@ local UISelectors
 local TemplateTab
 local Selector
 local UI
+local old 
+local logo
 local currentSelectedUi
 function SetupIds(index, object)
 	if debugmode then
@@ -45,13 +49,12 @@ if identifyexecutor() == "Fluxus" then
 	local function vis(v)
 		v:GetPropertyChangedSignal("Visible"):Connect(function()
 			if v.Visible then
-				if v.Name == "Settings Selectors" then
-					currentSelectedUi = "Settings"
-				else
-					currentSelectedUi = v.Name
+				currentSelectedUi = v.Name
+				if debugmode then
+					print(currentSelectedUi)
 				end
-				print(currentSelectedUi)
 			elseif v.Visible == false and v.Name == currentSelectedUi then
+				old = currentSelectedUi
 				currentSelectedUi = nil	
 			end
 			
@@ -78,18 +81,25 @@ if identifyexecutor() == "Fluxus" then
 			vis(v)
 		end
 	end
+	logo = fluxusUI.LeftBarFrame.Logo
+	
+	logo.MouseButton1Down:Connect(function()
+		fluxusUI:SetAttribute("Hide",true)
+	end)
 	
 	local function Close()
 		if firesignal then
-			firesignal(fluxusUI.LeftBarFrame.Logo.MouseButton1Down)
+			firesignal(logo.MouseButton1Down)
 		else
 			local leftBarFrame = fluxusUI:FindFirstChild("LeftBarFrame")
 			if leftBarFrame then
+				fluxusUI:SetAttribute("Hide",true)
 				leftBarFrame.Visible = false
 				leftBarFrame.Position = UDim2.new(0, -225, 0, 0)
 			end
 		end
 	end
+	
 	local function ShowUi(Object)
 		Object.Visible = true
 		Object.Position = UDim2.new(0.1, 100,0, 0)
@@ -98,7 +108,7 @@ if identifyexecutor() == "Fluxus" then
 	getgenv().FluxusUINodeIds = true
 	currentSelectedUi = nil
 	
-	
+	local hook 
 	getgenv().FluxusUINodeIdsApi = {
 		["CreateTemplate"] = function(Name,TemplateArea)
 			local Tem
@@ -113,11 +123,17 @@ if identifyexecutor() == "Fluxus" then
 				sel.Parent = fluxusUI:FindFirstChild("LeftBarFrame")
 				Tem = TemplateTab:Clone()
 				Tem.Name = Name.."'s_UI"
+				hhhhhh[Name] = {
+					sel,Tem
+				}
 				Tem.Parent = fluxusUI
 				back = Back:Clone()
 				back.Parent = sel
 				back.TextButton.MouseButton1Down:Connect(function()
 					if currentSelectedUi ~= nil then
+						if hook then
+							hook:Disconnect()
+						end
 						UISelectors.Visible = true
 						sel.Visible = false
 						Tem.Visible = false
@@ -126,6 +142,15 @@ if identifyexecutor() == "Fluxus" then
 				vis(Tem)
 				R.TextButton.MouseButton1Down:Connect(function()
 					if currentSelectedUi == nil then
+						hook = fluxusUI:GetAttributeChangedSignal("Hide"):Connect(function()
+							if fluxusUI:GetAttribute("Hide") then
+								sel.Visible = false
+								Tem.Visible = false
+								UISelectors.Visible = true
+								hook:Disconnect()
+							end
+						end)
+						
 						UISelectors.Visible = false
 						sel.Visible = true
 						ShowUi(Tem)
@@ -143,9 +168,18 @@ if identifyexecutor() == "Fluxus" then
 		["CloseUi"] = Close;
 	}
 	
+	fluxusUI.LeftBarFrame:GetPropertyChangedSignal("Visible"):Connect(function()
+		fluxusUI:SetAttribute("Hide",not fluxusUI.LeftBarFrame.Visible)
+		if fluxusUI:GetAttribute("Hide") then
+			if debugmode then
+				print("move some thing due to a bug not tweening")
+			end
+		end
+	end)
+	
 	local Exit = FluxusUINodeIdsApi.CreateTemplate("Close", false)
 	
---	local eee = FluxusUINodeIdsApi.CreateTemplate("eee", true) unfinished api
+   -- local eee = FluxusUINodeIdsApi.CreateTemplate("eee", true) -- unfinished api
 	
 	Exit["TextButton"].MouseButton1Down:Connect(function()
 		FluxusUINodeIdsApi.CloseUi()
