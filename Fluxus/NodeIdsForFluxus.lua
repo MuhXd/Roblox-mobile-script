@@ -203,14 +203,23 @@ if identifyexecutor() == "Fluxus" then
 				SaveSettings[ID] = def
 			else
 				SaveSettings[ID] = false
-			end
-			CallBack(SaveSettings[ID])
+				end
+			local function covertstringtobool(d) -- lazy
+					if tostring(d) == "true" then
+						return true
+					elseif tostring(d) == "false" then
+						return false
+					else
+						return false
+					end
+				end
+			CallBack(covertstringtobool(SaveSettings[ID]) )
 			sprite(SaveSettings[ID])
 			F:FindFirstChild("Selector").MouseButton1Down:Connect(function()
 				SaveSettings[ID] = not SaveSettings[ID]
 				sprite(SaveSettings[ID])
 				if CallBack then
-					CallBack(SaveSettings[ID])
+						CallBack(covertstringtobool(SaveSettings[ID]) )
 				end
 			end)
 		end;
