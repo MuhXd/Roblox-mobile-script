@@ -50,20 +50,20 @@ function SetupIds(index, object)
 	end
 end
 local Files = isfile and isfolder and writefile and readfile and makefolder
-if not isfolder('FluxusNodeIds') then
-	makefolder('FluxusNodeIds')
+if not isfolder('Intermedia') then
+	makefolder('Intermedia')
 end
 function feach()
 	if not Files then
 		return false
 	end
-	if not isfile("FluxusNodeIds/Mods.Fluxus") then
+	if not isfile("Intermedia/Mods.Fluxus") then
 		return true
 	end
 	local index
 	local val
 	local s = false
-	for i,v in pairs(readfile("FluxusNodeIds/Mods.Fluxus"):split("|")) do
+	for i,v in pairs(readfile("Intermedia/Mods.Fluxus"):split("|")) do
 		if index and val then
 			SaveSettings[index] = val
 			index = nil
@@ -317,7 +317,7 @@ function saveSettingsFile()
 		for i,v in pairs(SaveSettings) do
 			stringSave = i.."|"..tostring(v).."|"
 		end
-		writefile("FluxusNodeIds/Mods.Fluxus",stringSave)
+		writefile("Intermedia/Mods.Fluxus",stringSave)
 	end
 end
 game.Players.PlayerRemoving:Connect(function(plr)
