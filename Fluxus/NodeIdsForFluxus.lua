@@ -117,10 +117,12 @@ if identifyexecutor() == "Fluxus" then
 			toggle.Selector.BackgroundColor3 = togglecolors["Off"]
 			toggle.Parent = nil
 		end
-		if v.Name == "Label"  and v:IsA("TextLabel") then
-			if  v.Text =="Fluxus" then
+		if v.Name == "Label" and v:IsA("TextLabel") then
+			if v.Text =="Fluxus" then
 				header = v
+				print(header)
 			end
+		end
 		if v.Name == "UI Selectors" then
 			UISelectors = v
 			UI = v:FindFirstChild("Settings"):Clone()
@@ -179,7 +181,7 @@ if identifyexecutor() == "Fluxus" then
 				heade.Parent = setttingmenu
 				heade.Text = Name
 				heade.Name = heade
-		end;
+		end,
 		["NewSetting"] = function(Name,ID,def,CallBack)
 			if string.find(ID,"|") then
 				return error("Invalid char, '|'")
@@ -204,6 +206,7 @@ if identifyexecutor() == "Fluxus" then
 			else
 				SaveSettings[ID] = false
 				end
+				
 			local function covertstringtobool(d) -- lazy
 					if tostring(d) == "true" then
 						return true
@@ -213,6 +216,7 @@ if identifyexecutor() == "Fluxus" then
 						return false
 					end
 				end
+				
 			CallBack(covertstringtobool(SaveSettings[ID]) )
 			sprite(SaveSettings[ID])
 			F:FindFirstChild("Selector").MouseButton1Down:Connect(function()
