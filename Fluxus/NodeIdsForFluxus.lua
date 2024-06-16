@@ -31,6 +31,7 @@ local setttingmenu
 local Selector
 local UI
 local old 
+local header
 local logo
 local toggle
 local togglecolors = {
@@ -116,6 +117,10 @@ if identifyexecutor() == "Fluxus" then
 			toggle.Selector.BackgroundColor3 = togglecolors["Off"]
 			toggle.Parent = nil
 		end
+		if v.Name == "Label"  and v:IsA("TextLabel") then
+			if  v.Text =="Fluxus" then
+				header = v
+			end
 		if v.Name == "UI Selectors" then
 			UISelectors = v
 			UI = v:FindFirstChild("Settings"):Clone()
@@ -169,6 +174,12 @@ if identifyexecutor() == "Fluxus" then
 	local hook 
 	feach()
 	getgenv().FluxusUINodeIdsApi = {
+		["NewSettingHeader"] = function(Name)
+				local heade = header:Clone()
+				heade.Parent = setttingmenu
+				heade.Text = Name
+				heade.Name = heade
+		end;
 		["NewSetting"] = function(Name,ID,def,CallBack)
 			if string.find(ID,"|") then
 				return error("Invalid char, '|'")
@@ -271,12 +282,13 @@ if identifyexecutor() == "Fluxus" then
 		end
 	end)
 	
-	local Exit = FluxusUINodeIdsApi.CreateTemplate("Close", false)
+	local Exit = FluxusUINodeIdsApi.CreateTemplate("Hide", false)
 	Exit["Frame"].LayoutOrder = 99999
 	--local eee = FluxusUINodeIdsApi.CreateTemplate("eee", true) -- unfinished api
-	--local E = FluxusUINodeIdsApi.NewSetting("E","Viper.Example",false, function(e)
-	--	print(e)
-	--end) -- unfinished api
+	local IntermediaHeading = FluxusUINodeIdsApi.NewSettingHeader("Intermedia") -- unfinished api
+	local E = FluxusUINodeIdsApi.NewSetting("Hide Menu Button","intermedia.CloseButton",false, function(e)
+			Exit["Frame"].Visible = e
+	end) -- unfinished api
 	
 	Exit["TextButton"].MouseButton1Down:Connect(function()
 		FluxusUINodeIdsApi.CloseUi()
