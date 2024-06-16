@@ -120,7 +120,6 @@ if identifyexecutor() == "Fluxus" then
 		if v.Name == "Label" and v:IsA("TextLabel") then
 			if v.Text =="Fluxus" then
 				header = v
-				print(header)
 			end
 		end
 		if v.Name == "UI Selectors" then
@@ -180,7 +179,7 @@ if identifyexecutor() == "Fluxus" then
 				local heade = header:Clone()
 				heade.Parent = setttingmenu
 				heade.Text = Name
-				heade.Name = heade
+				heade.Name = Name
 		end,
 		["NewSetting"] = function(Name,ID,def,CallBack)
 			if string.find(ID,"|") then
