@@ -225,6 +225,7 @@ if identifyexecutor() == "Fluxus" then
 						CallBack(covertstringtobool(SaveSettings[ID]) )
 				end
 			end)
+			return F
 		end;
 		["CreateTemplate"] = function(Name,TemplateArea)
 			local Tem
@@ -301,6 +302,7 @@ if identifyexecutor() == "Fluxus" then
 	local E = FluxusUINodeIdsApi.NewSetting("Hide Menu Button","intermedia.CloseButton",false, function(e)
 			Exit["Frame"].Visible = e
 	end) -- unfinished api
+	E:FindFirstChild("Text").TextSize = 11
 	
 	Exit["TextButton"].MouseButton1Down:Connect(function()
 		FluxusUINodeIdsApi.CloseUi()
