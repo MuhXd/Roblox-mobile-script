@@ -14,21 +14,18 @@
 A loader used to make modifying Fluxus Ui easier
 
 ]]
+
 local debugmode = false
 
 local Editors = {}
 local hhhhhh={}
 local ids = {
 	[156] = "IconDraggable";
-	[159] = "Script Editor";
-	[189] = "Online Scripts";
-	[195] = "Console";
 	[105] = "Settings Selectors";
 	[19] = "Script Editor Selectors";
 	[46] = "Online Scripts Selectors";
 	[5] = "UI Selectors";
 	[69] = "Console Selector";
-	[202] = "TemplateTab";
 	[3] = "Template Selector";
 }
 local Back
@@ -65,20 +62,41 @@ function SetupIds(index, object)
 	end
 end
 local Files = isfile and isfolder and writefile and readfile and makefolder
+local lls = listfiles and ( (loadstring and readfile) or dofile)
+local method = dofile or function(path) 
+	loadstring(readfile(path))
+end
 if not isfolder('Intermedia') then
 	makefolder('Intermedia')
+end
+if not isfolder('Intermedia/Mods') then
+	makefolder('Intermedia/Mods')
+end
+
+local ModsLoaded = {
+	["Intermedia"] = "InternalRoot"
+}
+
+function loadmods()
+	if not lls then
+		return false
+	end
+	for i,v in pairs(listfiles("Intermedia/Mods")) do
+		ModsLoaded[i] = v
+		method(v)
+	end
 end
 function feach()
 	if not Files then
 		return false
 	end
-	if not isfile("Intermedia/Mods.Fluxus") then
+	if not isfile("Intermedia/Mods_save.Fluxus") then
 		return true
 	end
 	local index
 	local val
 	local s = false
-	for i,v in pairs(readfile("Intermedia/Mods.Fluxus"):split("|")) do
+	for i,v in pairs(readfile("Intermedia/Mods_save.Fluxus"):split("|")) do
 		if index and val then
 			SaveSettings[index] = val
 			index = nil
@@ -114,6 +132,18 @@ if identifyexecutor() == "Fluxus" then
 		end)
 	end
 	local fluxusUI = game:GetService("CoreGui"):WaitForChild("FluxusAndroidUI")
+	-- fixes TemplateTab bug
+	for i,v in pairs(fluxusUI:GetChildren()) do 
+		if i == 3 then
+			v.Name = "Script Editor"
+		elseif i == 4 then
+			v.Name = "Online Scripts"
+		elseif i==5 then
+			v.Name = "Console"
+		elseif i == 6 then
+			v.Name = "TemplateTab"
+		end
+	end
 	for i,v in pairs(fluxusUI:GetDescendants()) do 
 		SetupIds(i,v)
 		if v.Name == "Back" then
@@ -300,6 +330,56 @@ if identifyexecutor() == "Fluxus" then
 		["CloseUi"] = Close;
 	}
 	
+	local function modsinit(path)
+		local InstalledMods = Instance.new("ScrollingFrame")
+		local Mods = Instance.new("UIListLayout")
+		local Mod = Instance.new("Frame")
+		local TextLabel = Instance.new("TextLabel")
+		local UITextSizeConstraint = Instance.new("UITextSizeConstraint")
+
+		InstalledMods.Name = "Installed Mods"
+		InstalledMods.Active = true
+		InstalledMods.BackgroundColor3 = Color3.fromRGB(103, 61, 234)
+		InstalledMods.BackgroundTransparency = 1.000
+		InstalledMods.BorderColor3 = Color3.fromRGB(0, 0, 0)
+		InstalledMods.BorderSizePixel = 0
+		InstalledMods.Position = UDim2.new(0.00139625813, 0, 0.0494233929, 0)
+		InstalledMods.Size = UDim2.new(0.980000019, 0, 0.949241579, 0)
+		InstalledMods.CanvasSize = UDim2.new(0, 0, 0, 115)
+		InstalledMods.ScrollBarThickness = 2
+		InstalledMods.Parent = path
+
+		Mods.Name = "Mods"
+		Mods.Parent = InstalledMods
+		Mods.SortOrder = Enum.SortOrder.Name
+		Mods.Padding = UDim.new(0, 8)
+
+		Mod.Name = "Mod"
+		Mod.BackgroundColor3 = Color3.fromRGB(56, 56, 56)
+		Mod.BorderColor3 = Color3.fromRGB(0, 0, 0)
+		Mod.BorderSizePixel = 0
+		Mod.Size = UDim2.new(0.983079672, 0, 0.0798348263, 0)
+
+		TextLabel.Parent = Mod
+		TextLabel.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+		TextLabel.BackgroundTransparency = 1.000
+		TextLabel.BorderColor3 = Color3.fromRGB(0, 0, 0)
+		TextLabel.BorderSizePixel = 0
+		TextLabel.Position = UDim2.new(0.0115942033, 0, 0, 0)
+		TextLabel.Size = UDim2.new(0.988405824, 0, 1, 0)
+		TextLabel.Font = Enum.Font.GothamBold
+		TextLabel.Text = "Fluxus Themes"
+		TextLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
+		TextLabel.TextScaled = true
+		TextLabel.TextSize = 14.000
+		TextLabel.TextStrokeTransparency = 0.000
+		TextLabel.TextWrapped = true
+
+		UITextSizeConstraint.Parent = TextLabel
+		UITextSizeConstraint.MaxTextSize = 25
+		return Mod
+	end
+	
 	fluxusUI.LeftBarFrame:GetPropertyChangedSignal("Visible"):Connect(function()
 		fluxusUI:SetAttribute("Hide",not fluxusUI.LeftBarFrame.Visible)
 		if fluxusUI:GetAttribute("Hide") then
@@ -311,16 +391,29 @@ if identifyexecutor() == "Fluxus" then
 	
 	local Exit = FluxusUINodeIdsApi.CreateTemplate("Hide", false)
 	Exit["Frame"].LayoutOrder = 99999
-	--local eee = FluxusUINodeIdsApi.CreateTemplate("eee", true) -- unfinished api
-	local IntermediaHeading = FluxusUINodeIdsApi.NewSettingHeader("Intermedia") -- unfinished api
-	local E = FluxusUINodeIdsApi.NewSetting("Hide Menu Button","intermedia.CloseButton",false, function(e)
+	local Mods = FluxusUINodeIdsApi.CreateTemplate("Loaded Mods", true) 
+	Mods["Frame"].LayoutOrder = 350
+	local IntermediaHeading = FluxusUINodeIdsApi.NewSettingHeader("Intermedia") 
+	local HideMenu = FluxusUINodeIdsApi.NewSetting("Hide Menu Button","intermedia.CloseButton",false, function(e)
 			Exit["Frame"].Visible = e
-	end) -- unfinished api
-	E:FindFirstChild("Text").TextSize = 11
-	
+	end) 
+	local ModsSetting = FluxusUINodeIdsApi.NewSetting("Mods Button","intermedia.ModsButton",true, function(e)
+		Mods["Frame"].Visible = e
+	end) 
+	HideMenu:FindFirstChild("Text").TextSize = 11
+	local moditem = modsinit(Mods["UI"]:FindFirstChild("Container"))
 	Exit["TextButton"].MouseButton1Down:Connect(function()
 		FluxusUINodeIdsApi.CloseUi()
 	end)
+	loadmods()
+	for i,v in pairs(ModsLoaded) do
+		Item = moditem:Clone()
+		Item.TextLabel.Text = string.gsub(i,"Intermedia/Mods","")
+		Item.Name = v == "InternalRoot" and "!!!!!!!!!!!!!!!!!!!!Important-Intermedia!!!!!!!!!!!!!!!!!!!!" or string.gsub(i,"Intermedia/Mods","")
+		Item.Parent = Mods["UI"]:FindFirstChild("Container")
+	end
+	
+	moditem:Destroy()
 	
 	print("SUCCESSFULLY LOADED INTERMEDIA LOADER")
 else
@@ -332,7 +425,7 @@ function saveSettingsFile()
 		for i,v in pairs(SaveSettings) do
 			stringSave = i.."|"..tostring(v).."|"
 		end
-		writefile("Intermedia/Mods.Fluxus",stringSave)
+		writefile("Intermedia/Mods_save.Fluxus",stringSave)
 	end
 end
 game.Players.PlayerRemoving:Connect(function(plr)
