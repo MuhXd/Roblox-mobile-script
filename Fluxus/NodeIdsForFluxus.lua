@@ -308,7 +308,7 @@ if identifyexecutor() == "Fluxus" then
 		FluxusUINodeIdsApi.CloseUi()
 	end)
 	
-	print("Provided Node Ids for Fluxus")
+	print("SUCCESSFULLY LOADED INTERMEDIA LOADER")
 else
 	warn("You are not on fluxus")
 end
