@@ -53,7 +53,6 @@ local Files = isfile and isfolder and writefile and readfile and makefolder
 if not isfolder('FluxusNodeIds') then
 	makefolder('FluxusNodeIds')
 end
-local LoadSettings = {}
 function feach()
 	if not Files then
 		return false
@@ -66,7 +65,7 @@ function feach()
 	local s = false
 	for i,v in pairs(readfile("FluxusNodeIds/Mods.Fluxus"):split("|")) do
 		if index and val then
-			LoadSettings[index] = val
+			SaveSettings[index] = val
 			index = nil
 			val = nil
 			s = true
@@ -198,8 +197,8 @@ if identifyexecutor() == "Fluxus" then
 					sel.BackgroundColor3 = togglecolors["Off"]
 				end
 			end
-			if LoadSettings[ID] ~= nil then
-				SaveSettings[ID] = LoadSettings[ID] 
+			if SaveSettings[ID] ~= nil then
+				SaveSettings[ID] = SaveSettings[ID] 
 			elseif def ~= nil then
 				SaveSettings[ID] = def
 			else
