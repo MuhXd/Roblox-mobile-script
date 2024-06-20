@@ -52,6 +52,7 @@ local togglecolors = {
 }
 local SaveSettings = {
 }
+local recoloredui = {}
 local currentSelectedUi
 function SetupIds(index, object)
 	if debugmode then
@@ -177,19 +178,24 @@ if identifyexecutor() == "Fluxus" then
 	for i,v in pairs(UISelectors:GetChildren()) do
 		if v.Name == "Cloud" then
 			v.LayoutOrder = 200
+			recoloredui["CloudTab"] = v
 		end
 		if v.Name == "Executor" then
 			v.LayoutOrder = 100
+			recoloredui["ExecutorTab"] = v
 		end
 		if v.Name == "Console" then
 			v.LayoutOrder = 300
+			recoloredui["ConsoleTab"] = v
 		end
 		if v.Name == "Settings" then
 			v.LayoutOrder = 400
+			recoloredui["SettingsTab"] = v
 		end
 	end
 	logo = fluxusUI.LeftBarFrame.Logo
-
+	recoloredui["Logo"] = logo
+	recoloredui["Ui-Button"] = fluxusUI.IconDraggable
 	logo.MouseButton1Down:Connect(function()
 		fluxusUI:SetAttribute("Hide",true)
 	end)
@@ -217,8 +223,48 @@ if identifyexecutor() == "Fluxus" then
 
 	local hook 
 	feach()
-	local apis = {
+	local function recolor(path,color,speed,d)
+		if typeof(path) == "string" then
+			if recoloredui[path] then
+				path = recoloredui[path]
+			end
+		end
+		if path == recoloredui["Ui-Button"] and not d then
+			task.spawn(function()
+				recolor("Logo",color,speed,true)
+			end)
+		elseif path == recoloredui["Logo"] and not d then
+			task.spawn(function()
+				recolor("Ui-Button",color,speed,true)
+			end)
+		end
+		if tonumber(speed) == nil then
+			speed = 1
+		end
+		local colorset = {}
+		pcall(function()
+			if path.BorderColor3 then
+				colorset["BorderColor3"] = color["Color3"]
+			end
+		end)
+		pcall(function()
+			if path.BackgroundColor3 then
+				colorset["BackgroundColor3"] = color["Color3"]
+			end
+		end)
 		
+		pcall(function()
+			if path.Image and color["Image"] then
+				colorset["Image"] = color["Image"]
+			end
+		end)
+		
+		game:GetService("TweenService"):Create(path,TweenInfo.new(speed),colorset):Play()
+		return path
+	end
+	
+	local apis = {
+			["Colorify"] = recolor;
 			["NewSettingHeader"] = function(Name)
 				local heade = header:Clone()
 				heade.Parent = setttingmenu
@@ -328,13 +374,11 @@ if identifyexecutor() == "Fluxus" then
 				}
 			end;
 			["CloseUi"] = Close;
+			["fluxusUI"] = fluxusUI;
 			["SettingsMenu"] = setttingmenu;
 			}
 	
 	
-	local function recolor()
-		
-	end
 	local function modsinit(path)
 
 
@@ -389,6 +433,7 @@ if identifyexecutor() == "Fluxus" then
 		UITextSizeConstraint_2.MaxTextSize = 25
 		return Mod
 	end
+	recoloredui["LeftBarFrame"] = fluxusUI.LeftBarFrame;
 	
 	fluxusUI.LeftBarFrame:GetPropertyChangedSignal("Visible"):Connect(function()
 		fluxusUI:SetAttribute("Hide",not fluxusUI.LeftBarFrame.Visible)
@@ -456,6 +501,7 @@ if identifyexecutor() == "Fluxus" then
 	}
 	local ModInitsApi = FluxusUINodeIdsApi:InitMod("Viper.IntermediaMain","Intermedia", {[530829101] = "userid"})
 	local Exit = ModInitsApi.CreateTemplate("Hide", false)
+	--ModInitsApi.Colorify(fluxusUI.IconDraggable,{["Color3"] = Color3.fromRGB(170, 0, 255)},10) added colorify
 	Exit["Frame"].LayoutOrder = 99999
 	Mods["Frame"].LayoutOrder = 350
 	local IntermediaHeading = ModInitsApi.NewSettingHeader("Intermedia") 
