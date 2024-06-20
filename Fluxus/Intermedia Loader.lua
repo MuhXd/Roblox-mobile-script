@@ -13,8 +13,6 @@
                                                                                                                                                                           
 A loader used to make modifying Fluxus Ui easier
 
-you know this script will update with better api
-
 ]]
 
 local debugmode = false
@@ -76,7 +74,7 @@ if not isfolder('Intermedia/Mods') then
 end
 
 local ModsLoaded = {
-	["Intermedia"] = "InternalRoot"
+
 }
 
 function loadmods()
@@ -84,7 +82,6 @@ function loadmods()
 		return false
 	end
 	for i,v in pairs(listfiles("Intermedia/Mods")) do
-		ModsLoaded[i] = v
 		method(v)
 	end
 end
@@ -130,7 +127,7 @@ if identifyexecutor() == "Fluxus" then
 				old = currentSelectedUi
 				currentSelectedUi = nil	
 			end
-			
+
 		end)
 	end
 	local fluxusUI = game:GetService("CoreGui"):WaitForChild("FluxusAndroidUI")
@@ -192,11 +189,11 @@ if identifyexecutor() == "Fluxus" then
 		end
 	end
 	logo = fluxusUI.LeftBarFrame.Logo
-	
+
 	logo.MouseButton1Down:Connect(function()
 		fluxusUI:SetAttribute("Hide",true)
 	end)
-	
+
 	local function Close()
 		if firesignal then
 			firesignal(logo.MouseButton1Down)
@@ -209,7 +206,7 @@ if identifyexecutor() == "Fluxus" then
 			end
 		end
 	end
-	
+
 	local function ShowUi(Object)
 		Object.Visible = true
 		Object.Position = UDim2.new(0.1, 100,0, 0)
@@ -217,42 +214,43 @@ if identifyexecutor() == "Fluxus" then
 	end
 	getgenv().FluxusUINodeIds = true
 	currentSelectedUi = nil
-	
+
 	local hook 
 	feach()
-	getgenv().FluxusUINodeIdsApi = {
-		["NewSettingHeader"] = function(Name)
+	local apis = {
+		
+			["NewSettingHeader"] = function(Name)
 				local heade = header:Clone()
 				heade.Parent = setttingmenu
 				heade.Text = Name
 				heade.Name = Name
-		end,
-		["NewSetting"] = function(Name,ID,def,CallBack)
-			if string.find(ID,"|") then
-				return error("Invalid char, '|'")
-			end
-			
-			local F = toggle:Clone()
-			F:FindFirstChild("Text").Text = Name
-			F.Parent = setttingmenu
-			local sel = F:WaitForChild("Selector")
-			
-			local function sprite(s)
-				if tostring(s) == "true" then -- stops umm loading breaking
-					sel.BackgroundColor3 = togglecolors["On"]
+			end,
+			["NewSetting"] = function(Name,ID,def,CallBack)
+				if string.find(ID,"|") then
+					return error("Invalid char, '|'")
+				end
+
+				local F = toggle:Clone()
+				F:FindFirstChild("Text").Text = Name
+				F.Parent = setttingmenu
+				local sel = F:WaitForChild("Selector")
+
+				local function sprite(s)
+					if tostring(s) == "true" then -- stops umm loading breaking
+						sel.BackgroundColor3 = togglecolors["On"]
+					else
+						sel.BackgroundColor3 = togglecolors["Off"]
+					end
+				end
+				if SaveSettings[ID] ~= nil then
+					SaveSettings[ID] = SaveSettings[ID] 
+				elseif def ~= nil then
+					SaveSettings[ID] = def
 				else
-					sel.BackgroundColor3 = togglecolors["Off"]
+					SaveSettings[ID] = false
 				end
-			end
-			if SaveSettings[ID] ~= nil then
-				SaveSettings[ID] = SaveSettings[ID] 
-			elseif def ~= nil then
-				SaveSettings[ID] = def
-			else
-				SaveSettings[ID] = false
-				end
-				
-			local function covertstringtobool(d) -- lazy
+
+				local function covertstringtobool(d) -- lazy
 					if tostring(d) == "true" then
 						return true
 					elseif tostring(d) == "false" then
@@ -261,100 +259,90 @@ if identifyexecutor() == "Fluxus" then
 						return false
 					end
 				end
-				
-			CallBack(covertstringtobool(SaveSettings[ID]) )
-			sprite(SaveSettings[ID])
-			F:FindFirstChild("Selector").MouseButton1Down:Connect(function()
-				SaveSettings[ID] = not SaveSettings[ID]
+
+				CallBack(covertstringtobool(SaveSettings[ID]) )
 				sprite(SaveSettings[ID])
-				if CallBack then
+				F:FindFirstChild("Selector").MouseButton1Down:Connect(function()
+					SaveSettings[ID] = not SaveSettings[ID]
+					sprite(SaveSettings[ID])
+					if CallBack then
 						CallBack(covertstringtobool(SaveSettings[ID]) )
-				end
-			end)
-			return F
-		end;
-		["CreateTemplate"] = function(Name,TemplateArea)
-			local Tem
-			local sel
-			local back
-			local R = UI:Clone()
-			R.Name = Name
-			R.Parent = UISelectors
-			R.LayoutOrder = 500
-			R.TextButton.Text = Name
-			if TemplateArea then
-				sel = Selector:Clone()
-				sel.Parent = fluxusUI:FindFirstChild("LeftBarFrame")
-				Tem = TemplateTab:Clone()
-				Tem.Name = Name.."'s_UI"
-				hhhhhh[Name] = {
-					sel,Tem
-				}
-				Tem.Parent = fluxusUI
-				back = Back:Clone()
-				back.Parent = sel
-				back.TextButton.MouseButton1Down:Connect(function()
-					if currentSelectedUi ~= nil then
-						if hook then
-							hook:Disconnect()
-						end
-						UISelectors.Visible = true
-						sel.Visible = false
-						Tem.Visible = false
 					end
 				end)
-				vis(Tem)
-				R.TextButton.MouseButton1Down:Connect(function()
-					if currentSelectedUi == nil then
-						hook = fluxusUI:GetAttributeChangedSignal("Hide"):Connect(function()
-							if fluxusUI:GetAttribute("Hide") then
-								sel.Visible = false
-								Tem.Visible = false
-								UISelectors.Visible = true
+				return F
+			end;
+			["CreateTemplate"] = function(Name,TemplateArea)
+				local Tem
+				local sel
+				local back
+				local R = UI:Clone()
+				R.Name = Name
+				R.Parent = UISelectors
+				R.LayoutOrder = 500
+				R.TextButton.Text = Name
+				if TemplateArea then
+					sel = Selector:Clone()
+					sel.Parent = fluxusUI:FindFirstChild("LeftBarFrame")
+					Tem = TemplateTab:Clone()
+					Tem.Name = Name.."'s_UI"
+					hhhhhh[Name] = {
+						sel,Tem
+					}
+					Tem.Parent = fluxusUI
+					back = Back:Clone()
+					back.Parent = sel
+					back.TextButton.MouseButton1Down:Connect(function()
+						if currentSelectedUi ~= nil then
+							if hook then
 								hook:Disconnect()
 							end
-						end)
-						
-						UISelectors.Visible = false
-						sel.Visible = true
-						ShowUi(Tem)
-					end
-				end)
-			end
-			
-			return {
-				["Frame"] = R;
-				["TextButton"] = R.TextButton; 
-				["Selector"] = sel; 
-				["UI"] = Tem;
+							UISelectors.Visible = true
+							sel.Visible = false
+							Tem.Visible = false
+						end
+					end)
+					vis(Tem)
+					R.TextButton.MouseButton1Down:Connect(function()
+						if currentSelectedUi == nil then
+							hook = fluxusUI:GetAttributeChangedSignal("Hide"):Connect(function()
+								if fluxusUI:GetAttribute("Hide") then
+									sel.Visible = false
+									Tem.Visible = false
+									UISelectors.Visible = true
+									hook:Disconnect()
+								end
+							end)
+
+							UISelectors.Visible = false
+							sel.Visible = true
+							ShowUi(Tem)
+						end
+					end)
+				end
+
+				return {
+					["Frame"] = R;
+					["TextButton"] = R.TextButton; 
+					["Selector"] = sel; 
+					["UI"] = Tem;
 				}
-		end;
-		["CloseUi"] = Close;
-	}
+			end;
+			["CloseUi"] = Close;
+			["SettingsMenu"] = setttingmenu;
+			}
 	
+	
+	local function recolor()
+		
+	end
 	local function modsinit(path)
-		local InstalledMods = Instance.new("ScrollingFrame")
-		local Mods = Instance.new("UIListLayout")
+
+
 		local Mod = Instance.new("Frame")
-		local TextLabel = Instance.new("TextLabel")
+		local Mod_2 = Instance.new("TextLabel")
 		local UITextSizeConstraint = Instance.new("UITextSizeConstraint")
-
-		InstalledMods.Name = "Installed Mods"
-		InstalledMods.Active = true
-		InstalledMods.BackgroundColor3 = Color3.fromRGB(103, 61, 234)
-		InstalledMods.BackgroundTransparency = 1.000
-		InstalledMods.BorderColor3 = Color3.fromRGB(0, 0, 0)
-		InstalledMods.BorderSizePixel = 0
-		InstalledMods.Position = UDim2.new(0.00139625813, 0, 0.0494233929, 0)
-		InstalledMods.Size = UDim2.new(0.980000019, 0, 0.949241579, 0)
-		InstalledMods.CanvasSize = UDim2.new(0, 0, 0, 115)
-		InstalledMods.ScrollBarThickness = 2
-		InstalledMods.Parent = path
-
-		Mods.Name = "Mods"
-		Mods.Parent = InstalledMods
-		Mods.SortOrder = Enum.SortOrder.Name
-		Mods.Padding = UDim.new(0, 8)
+		local Devs = Instance.new("TextLabel")
+		local UITextSizeConstraint_2 = Instance.new("UITextSizeConstraint")
 
 		Mod.Name = "Mod"
 		Mod.BackgroundColor3 = Color3.fromRGB(56, 56, 56)
@@ -362,23 +350,43 @@ if identifyexecutor() == "Fluxus" then
 		Mod.BorderSizePixel = 0
 		Mod.Size = UDim2.new(0.983079672, 0, 0.0798348263, 0)
 
-		TextLabel.Parent = Mod
-		TextLabel.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-		TextLabel.BackgroundTransparency = 1.000
-		TextLabel.BorderColor3 = Color3.fromRGB(0, 0, 0)
-		TextLabel.BorderSizePixel = 0
-		TextLabel.Position = UDim2.new(0.0115942033, 0, 0, 0)
-		TextLabel.Size = UDim2.new(0.988405824, 0, 1, 0)
-		TextLabel.Font = Enum.Font.GothamBold
-		TextLabel.Text = "Fluxus Themes"
-		TextLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
-		TextLabel.TextScaled = true
-		TextLabel.TextSize = 14.000
-		TextLabel.TextStrokeTransparency = 0.000
-		TextLabel.TextWrapped = true
+		Mod_2.Name = "Mod"
+		Mod_2.Parent = Mod
+		Mod_2.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+		Mod_2.BackgroundTransparency = 1.000
+		Mod_2.BorderColor3 = Color3.fromRGB(0, 0, 0)
+		Mod_2.BorderSizePixel = 0
+		Mod_2.Position = UDim2.new(0.0115941744, 0, 0, 0)
+		Mod_2.Size = UDim2.new(0.988405764, 0, 0.688643217, 0)
+		Mod_2.Font = Enum.Font.GothamBold
+		Mod_2.Text = "N/A"
+		Mod_2.TextColor3 = Color3.fromRGB(255, 255, 255)
+		Mod_2.TextScaled = true
+		Mod_2.TextSize = 14.000
+		Mod_2.TextStrokeTransparency = 0.000
+		Mod_2.TextWrapped = true
 
-		UITextSizeConstraint.Parent = TextLabel
+		UITextSizeConstraint.Parent = Mod_2
 		UITextSizeConstraint.MaxTextSize = 25
+
+		Devs.Name = "Devs"
+		Devs.Parent = Mod
+		Devs.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+		Devs.BackgroundTransparency = 1.000
+		Devs.BorderColor3 = Color3.fromRGB(0, 0, 0)
+		Devs.BorderSizePixel = 0
+		Devs.Position = UDim2.new(0.0130087743, 0, 0.688643217, 0)
+		Devs.Size = UDim2.new(0.988405764, 0, 0.29779166, 0)
+		Devs.Font = Enum.Font.GothamBold
+		Devs.Text = "By example"
+		Devs.TextColor3 = Color3.fromRGB(255, 255, 255)
+		Devs.TextScaled = true
+		Devs.TextSize = 14.000
+		Devs.TextStrokeTransparency = 0.000
+		Devs.TextWrapped = true
+
+		UITextSizeConstraint_2.Parent = Devs
+		UITextSizeConstraint_2.MaxTextSize = 25
 		return Mod
 	end
 	
@@ -390,33 +398,77 @@ if identifyexecutor() == "Fluxus" then
 			end
 		end
 	end)
-	
-	local Exit = FluxusUINodeIdsApi.CreateTemplate("Hide", false)
+	local Mods = apis.CreateTemplate("Loaded Mods", true) 
+	local moditem = modsinit(Mods["UI"]:FindFirstChild("Container"))
+	getgenv().FluxusUINodeIdsApi = {
+		["InitMod"] = function(self,modid,name,devs)
+			if table.find(ModsLoaded,modid) then
+				error("Mod already loaded")
+				return nil
+			end
+			task.spawn(function()
+			ModsLoaded[modid] = devs
+			local Item = moditem:Clone()
+			Item.Mod.Text = name
+			Item.LayoutOrder = 1
+			
+			if name == "Viper.IntermediaMain" then
+				Item.LayoutOrder = 99999
+			end
+			local moddevs=""
+			for i,v in pairs(devs) do
+				if v == "rblx" or v == "roblox" or v == "userid" or v == "rblxuser" then
+					local a = game:GetService("UserService"):GetUserInfosByUserIdsAsync(i)
+					if a then
+							if a.DisplayName ~= a.Username then
+							if moddevs ~= "" then
+								moddevs = moddevs.." & "..a.DisplayName.."(@"..a.Username..")"
+							else
+								moddevs = a.DisplayName.."(@"..a.Username..")"
+							end
+						else
+							if moddevs ~= "" then
+									moddevs = moddevs.." & "..a.DisplayName
+							else
+									moddevs = a.DisplayName
+							end
+						end
+					else
+						
+					end
+				else
+					-- just do name
+						if moddevs ~= "" then
+							moddevs = moddevs.." & "..tostring(i)
+						else
+							moddevs = tostring(i)
+						end
+				end
+			end
+			Item.Devs.Text = "By "..moddevs
+			Item.Parent = Mods["UI"]:FindFirstChild("Container")
+			end)
+			return apis
+		end,
+	}
+	local ModInitsApi = FluxusUINodeIdsApi:InitMod("Viper.IntermediaMain","IntermediaMain", {[530829101] = "userid"})
+	local Exit = ModInitsApi.CreateTemplate("Hide", false)
 	Exit["Frame"].LayoutOrder = 99999
-	local Mods = FluxusUINodeIdsApi.CreateTemplate("Loaded Mods", true) 
 	Mods["Frame"].LayoutOrder = 350
-	local IntermediaHeading = FluxusUINodeIdsApi.NewSettingHeader("Intermedia") 
-	local HideMenu = FluxusUINodeIdsApi.NewSetting("Hide Menu Button","intermedia.CloseButton",false, function(e)
-			Exit["Frame"].Visible = e
+	local IntermediaHeading = ModInitsApi.NewSettingHeader("Intermedia") 
+	local HideMenu = ModInitsApi.NewSetting("Hide Menu Button","intermedia.CloseButton",false, function(e)
+		Exit["Frame"].Visible = e
 	end) 
-	local ModsSetting = FluxusUINodeIdsApi.NewSetting("Mods Button","intermedia.ModsButton",true, function(e)
+	local ModsSetting = ModInitsApi.NewSetting("Mods Button","intermedia.ModsButton",true, function(e)
 		Mods["Frame"].Visible = e
 	end) 
 	HideMenu:FindFirstChild("Text").TextSize = 11
-	local moditem = modsinit(Mods["UI"]:FindFirstChild("Container"))
+
 	Exit["TextButton"].MouseButton1Down:Connect(function()
-		FluxusUINodeIdsApi.CloseUi()
+		ModInitsApi.CloseUi()
 	end)
 	loadmods()
-	for i,v in pairs(ModsLoaded) do
-		Item = moditem:Clone()
-		Item.TextLabel.Text = string.gsub(i,"Intermedia/Mods","")
-		Item.Name = v == "InternalRoot" and "!!!!!!!!!!!!!!!!!!!!Important-Intermedia!!!!!!!!!!!!!!!!!!!!" or string.gsub(i,"Intermedia/Mods","")
-		Item.Parent = Mods["UI"]:FindFirstChild("Container")
-	end
-	
-	moditem:Destroy()
-	
+
 	print("SUCCESSFULLY LOADED INTERMEDIA LOADER")
 else
 	warn("You are not on fluxus")
