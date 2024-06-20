@@ -418,13 +418,16 @@ if identifyexecutor() == "Fluxus" then
 			local moddevs=""
 			for i,v in pairs(devs) do
 				if v == "rblx" or v == "roblox" or v == "userid" or v == "rblxuser" then
-					local a = game:GetService("UserService"):GetUserInfosByUserIdsAsync({i})[1]
+						local a = game:GetService("UserService"):GetUserInfosByUserIdsAsync({i})[1]
+					if a[1] then
+						a = a[1]
+					end
 					if a then
 							if a.DisplayName ~= a.Username then
 							if moddevs ~= "" then
-								moddevs = moddevs.." & "..a.DisplayName.."(@"..a.Username..")"
+								moddevs = moddevs.." & "..a.DisplayName.." (@"..a.Username..")"
 							else
-								moddevs = a.DisplayName.."(@"..a.Username..")"
+								moddevs = a.DisplayName.." (@"..a.Username..")"
 							end
 						else
 							if moddevs ~= "" then
@@ -451,7 +454,7 @@ if identifyexecutor() == "Fluxus" then
 			return apis
 		end,
 	}
-	local ModInitsApi = FluxusUINodeIdsApi:InitMod("Viper.IntermediaMain","IntermediaMain", {[530829101] = "userid"})
+	local ModInitsApi = FluxusUINodeIdsApi:InitMod("Viper.IntermediaMain","Intermedia", {[530829101] = "userid"})
 	local Exit = ModInitsApi.CreateTemplate("Hide", false)
 	Exit["Frame"].LayoutOrder = 99999
 	Mods["Frame"].LayoutOrder = 350
