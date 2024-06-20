@@ -418,7 +418,7 @@ if identifyexecutor() == "Fluxus" then
 			local moddevs=""
 			for i,v in pairs(devs) do
 				if v == "rblx" or v == "roblox" or v == "userid" or v == "rblxuser" then
-					local a = game:GetService("UserService"):GetUserInfosByUserIdsAsync(i)
+					local a = game:GetService("UserService"):GetUserInfosByUserIdsAsync({i})
 					if a then
 							if a.DisplayName ~= a.Username then
 							if moddevs ~= "" then
