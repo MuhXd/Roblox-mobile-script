@@ -26,6 +26,9 @@ if not _G.Viper_Themeify["ModApi"] then
 	_G.Viper_ThemeifyStorage["ModApi"] = ModInitsApi
 else
 	ModInitsApi = _G.Viper_ThemeifyStorage["ModApi"] 
+	ModInitsApi:EditInfo({
+		["Devs"] = viper
+	})
 end
 ModInitsApi.Colorify(ModInitsApi.GetUi("Ui-Button"),{
 	["Color3"] = _G.Viper_Themeify.FloatingIconColor or nil;
