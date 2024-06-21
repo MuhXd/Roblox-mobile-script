@@ -480,7 +480,6 @@ if identifyexecutor() == "Fluxus" then
 				error("Mod already loaded")
 				return nil
 			end
-			task.spawn(function()
 			ModsLoaded[modid] = devs
 			local Item = moditem:Clone()
 			Item.Mod.Text = name
@@ -489,47 +488,61 @@ if identifyexecutor() == "Fluxus" then
 			if name == "Viper.IntermediaMain" then
 				Item.LayoutOrder = 99999
 			end
-			local moddevs=""
-			for i,v in pairs(devs) do
-				if v == "rblx" or v == "roblox" or v == "userid" or v == "rblxuser" then
-					local a = game:GetService("UserService"):GetUserInfosByUserIdsAsync({i})[1]
-					if a then
-							if a.DisplayName ~= a.Username then
-							if moddevs ~= "" then
-								moddevs = moddevs.." & "..a.DisplayName.." (@"..a.Username..")"
+			local function devsofmod()
+					local moddevs=""
+					for i,v in pairs(devs) do
+						if v == "rblx" or v == "roblox" or v == "userid" or v == "rblxuser" then
+							local a = game:GetService("UserService"):GetUserInfosByUserIdsAsync({i})[1]
+							if a then
+								if a.DisplayName ~= a.Username then
+									if moddevs ~= "" then
+										moddevs = moddevs.." & "..a.DisplayName.." (@"..a.Username..")"
+									else
+										moddevs = a.DisplayName.." (@"..a.Username..")"
+									end
+								else
+									if moddevs ~= "" then
+										moddevs = moddevs.." & "..a.DisplayName
+									else
+										moddevs = a.DisplayName
+									end
+								end
 							else
-								moddevs = a.DisplayName.." (@"..a.Username..")"
+
 							end
 						else
+							-- just do name
 							if moddevs ~= "" then
-									moddevs = moddevs.." & "..a.DisplayName
+								moddevs = moddevs.." & "..tostring(i)
 							else
-									moddevs = a.DisplayName
+								moddevs = tostring(i)
 							end
 						end
-					else
-						
 					end
-				else
-					-- just do name
-						if moddevs ~= "" then
-							moddevs = moddevs.." & "..tostring(i)
-						else
-							moddevs = tostring(i)
-						end
+					return moddevs
 				end
-			end
-			Item.Devs.Text = "By "..moddevs
+				
+			Item.Devs.Text = "By "..devsofmod()
 			Item.Parent = ModsHolder
-			end)
-			return apis
+	
+			
+			
+			local scripts = apis
+			scripts["EditInfo"] = function(self,info)
+				if info["Devs"] then
+					devs = info["Devs"] 
+				end
+				if info["Name"] then
+					name = info["Name"] 
+				end
+				Item.Mod.Text = name
+				Item.Devs.Text = "By "..devsofmod()
+			end
+			return scripts
 		end,
 	}
 	local ModInitsApi = FluxusUINodeIdsApi:InitMod("Viper.IntermediaMain","Intermedia", {[530829101] = "userid"})
 	local Exit = ModInitsApi.CreateTemplate("Hide", false)
-	ModInitsApi.Colorify(fluxusUI.IconDraggable,{
-		["Color3"] = Color3.fromRGB(255, 85, 0);
-	},10) 
 	Exit["Frame"].LayoutOrder = 99999
 	Mods["Frame"].LayoutOrder = 350
 	local IntermediaHeading = ModInitsApi.NewSettingHeader("Intermedia") 
