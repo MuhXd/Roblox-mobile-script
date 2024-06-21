@@ -13,16 +13,16 @@ _G.Viper_Themeify = {
 ]]--
 
 if not FluxusUINodeIdsApi then
- loadstring(game:HttpGet("https://github.com/MuhXd/Roblox-mobile-script/blob/main/Fluxus/Intermedia%20Loader.lua?raw=true"))();
+	loadstring(game:HttpGet("https://github.com/MuhXd/Roblox-mobile-script/blob/main/Fluxus/Intermedia%20Loader.lua?raw=true"))();
 end
 if not _G.Viper_ThemeifyStorage then
 	_G.Viper_ThemeifyStorage = {}
 end
-local viper = _G.Viper_Themeify.ThemeDevs
+local viper = _G.Viper_Themeify.ThemeDevs or {}
 viper[530829101] = "userid"
 local ModInitsApi
 if not _G.Viper_Themeify["ModApi"] then
- 	ModInitsApi = FluxusUINodeIdsApi:InitMod("Viper.Themeify","Themes", viper)
+	ModInitsApi = FluxusUINodeIdsApi:InitMod("Viper.Themeify","Themes", viper)
 	_G.Viper_ThemeifyStorage["ModApi"] = ModInitsApi
 else
 	ModInitsApi = _G.Viper_ThemeifyStorage["ModApi"] 
@@ -44,17 +44,17 @@ task.spawn(function()
 					ModInitsApi.Colorify(v,{
 						["Color3"] = _G.Viper_Themeify.SelectorButtons or nil;
 					},3)
-					end)
-				end
-			end)
+				end)
+			end
+		end)
 	end
 end)
 for i,v in pairs(flux:GetChildren()) do
 	task.spawn(function()
-	if v:FindFirstChild("Container") then
-		ModInitsApi.Colorify(v,{
-			["Color3"] = _G.Viper_Themeify.MainUiBackground or nil;
-		},3) 
+		if v:FindFirstChild("Container") then
+			ModInitsApi.Colorify(v,{
+				["Color3"] = _G.Viper_Themeify.MainUiBackground or nil;
+			},3) 
 		end
 	end)
 end
