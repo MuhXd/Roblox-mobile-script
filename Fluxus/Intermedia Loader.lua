@@ -203,6 +203,7 @@ if identifyexecutor() == "Fluxus" then
 	recoloredui["Ui-Button"] = fluxusUI.IconDraggable
 	recoloredui["Fluxus"] = fluxusUI
 	recoloredui["Templates"] = store
+	recoloredui["UISelectors"] = UISelectors
 	logo.MouseButton1Down:Connect(function()
 		fluxusUI:SetAttribute("Hide",true)
 	end)
@@ -509,9 +510,9 @@ if identifyexecutor() == "Fluxus" then
 	}
 	local ModInitsApi = FluxusUINodeIdsApi:InitMod("Viper.IntermediaMain","Intermedia", {[530829101] = "userid"})
 	local Exit = ModInitsApi.CreateTemplate("Hide", false)
-	---ModInitsApi.Colorify(fluxusUI.IconDraggable,{
-	--	["Color3"] = Color3.fromRGB(255, 85, 0);
-	--},10) 
+	ModInitsApi.Colorify(fluxusUI.IconDraggable,{
+		["Color3"] = Color3.fromRGB(255, 85, 0);
+	},10) 
 	Exit["Frame"].LayoutOrder = 99999
 	Mods["Frame"].LayoutOrder = 350
 	local IntermediaHeading = ModInitsApi.NewSettingHeader("Intermedia") 
