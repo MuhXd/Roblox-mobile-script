@@ -409,6 +409,7 @@ if identifyexecutor() == "Fluxus" then
 		Holder.Size = UDim2.new(1, 0, 1, 0)
 		Holder.CanvasSize = UDim2.new(0, 0, 0, 0)
 		Holder.ScrollBarThickness = 0
+		Holder.Parent = path
 
 		Mod.Name = "Mod"
 		Mod.Parent = Holder
