@@ -117,6 +117,7 @@ if identifyexecutor() == "Fluxus" then
 		-- do not annoy the user with 5+ prints for already running
 		return
 	end
+
 	local function vis(v)
 		v:GetPropertyChangedSignal("Visible"):Connect(function()
 			if v.Visible then
@@ -132,6 +133,10 @@ if identifyexecutor() == "Fluxus" then
 		end)
 	end
 	local fluxusUI = game:GetService("CoreGui"):WaitForChild("FluxusAndroidUI")
+	local store = Instance.new("Frame")
+	store.Parent= fluxusUI
+	store.Name = ".TemplateUI"
+	store.Visible = false
 	-- fixes TemplateTab bug
 	for i,v in pairs(fluxusUI:GetChildren()) do 
 		if i == 3 then
@@ -159,7 +164,7 @@ if identifyexecutor() == "Fluxus" then
 			setttingmenu = v
 			toggle = v:FindFirstChild("Toggle"):Clone()
 			toggle.Selector.BackgroundColor3 = togglecolors["Off"]
-			toggle.Parent = nil
+			toggle.Parent = store
 		end
 		if v.Name == "Label" and v:IsA("TextLabel") then
 			if v.Text =="Fluxus" then
@@ -169,7 +174,7 @@ if identifyexecutor() == "Fluxus" then
 		if v.Name == "UI Selectors" then
 			UISelectors = v
 			UI = v:FindFirstChild("Settings"):Clone()
-			UI.Parent = nil
+			UI.Parent = store
 		end
 		if table.find(editor,v.Name) then
 			vis(v)
@@ -196,6 +201,8 @@ if identifyexecutor() == "Fluxus" then
 	logo = fluxusUI.LeftBarFrame.Logo
 	recoloredui["Logo"] = logo
 	recoloredui["Ui-Button"] = fluxusUI.IconDraggable
+	recoloredui["Fluxus"] = fluxusUI
+	recoloredui["Templates"] = store
 	logo.MouseButton1Down:Connect(function()
 		fluxusUI:SetAttribute("Hide",true)
 	end)
@@ -253,17 +260,19 @@ if identifyexecutor() == "Fluxus" then
 			end
 		end)
 		
-		pcall(function()
-			if path.Image and color["Image"] then
-				colorset["Image"] = color["Image"]
-			end
-		end)
 		
 		game:GetService("TweenService"):Create(path,TweenInfo.new(speed),colorset):Play()
 		return path
 	end
 	
 	local apis = {
+			["GetUi"] = function(str)
+				if typeof(str) == "string" then
+					if recoloredui[str] then
+						return recoloredui[str]
+					end
+				end
+			end;
 			["Colorify"] = recolor;
 			["NewSettingHeader"] = function(Name)
 				local heade = header:Clone()
@@ -380,19 +389,21 @@ if identifyexecutor() == "Fluxus" then
 	
 	
 	local function modsinit(path)
-
-
 		local Mod = Instance.new("Frame")
 		local Mod_2 = Instance.new("TextLabel")
 		local UITextSizeConstraint = Instance.new("UITextSizeConstraint")
 		local Devs = Instance.new("TextLabel")
 		local UITextSizeConstraint_2 = Instance.new("UITextSizeConstraint")
+		local UIListLayout = Instance.new("UIListLayout")
+		UIListLayout.Padding = UDim.new(0,10)
+
 
 		Mod.Name = "Mod"
 		Mod.BackgroundColor3 = Color3.fromRGB(56, 56, 56)
 		Mod.BorderColor3 = Color3.fromRGB(0, 0, 0)
 		Mod.BorderSizePixel = 0
 		Mod.Size = UDim2.new(0.983079672, 0, 0.0798348263, 0)
+		UIListLayout.Parent = Mod
 
 		Mod_2.Name = "Mod"
 		Mod_2.Parent = Mod
@@ -463,10 +474,7 @@ if identifyexecutor() == "Fluxus" then
 			local moddevs=""
 			for i,v in pairs(devs) do
 				if v == "rblx" or v == "roblox" or v == "userid" or v == "rblxuser" then
-						local a = game:GetService("UserService"):GetUserInfosByUserIdsAsync({i})[1]
-					if a[1] then
-						a = a[1]
-					end
+					local a = game:GetService("UserService"):GetUserInfosByUserIdsAsync({i})[1]
 					if a then
 							if a.DisplayName ~= a.Username then
 							if moddevs ~= "" then
@@ -501,7 +509,9 @@ if identifyexecutor() == "Fluxus" then
 	}
 	local ModInitsApi = FluxusUINodeIdsApi:InitMod("Viper.IntermediaMain","Intermedia", {[530829101] = "userid"})
 	local Exit = ModInitsApi.CreateTemplate("Hide", false)
-	--ModInitsApi.Colorify(fluxusUI.IconDraggable,{["Color3"] = Color3.fromRGB(170, 0, 255)},10) added colorify
+	---ModInitsApi.Colorify(fluxusUI.IconDraggable,{
+	--	["Color3"] = Color3.fromRGB(255, 85, 0);
+	--},10) 
 	Exit["Frame"].LayoutOrder = 99999
 	Mods["Frame"].LayoutOrder = 350
 	local IntermediaHeading = ModInitsApi.NewSettingHeader("Intermedia") 
