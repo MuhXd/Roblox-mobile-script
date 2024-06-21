@@ -390,21 +390,32 @@ if identifyexecutor() == "Fluxus" then
 	
 	
 	local function modsinit(path)
+		local Holder = Instance.new("ScrollingFrame")
 		local Mod = Instance.new("Frame")
 		local Mod_2 = Instance.new("TextLabel")
 		local UITextSizeConstraint = Instance.new("UITextSizeConstraint")
 		local Devs = Instance.new("TextLabel")
 		local UITextSizeConstraint_2 = Instance.new("UITextSizeConstraint")
 		local UIListLayout = Instance.new("UIListLayout")
-		UIListLayout.Padding = UDim.new(0,10)
 
+
+		Holder.Name = "Holder"
+		Holder.Active = true
+		Holder.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+		Holder.BackgroundTransparency = 1.000
+		Holder.BorderColor3 = Color3.fromRGB(0, 0, 0)
+		Holder.BorderSizePixel = 0
+		Holder.Position = UDim2.new(0, 0, -4.60926266e-08, 0)
+		Holder.Size = UDim2.new(1, 0, 1, 0)
+		Holder.CanvasSize = UDim2.new(0, 0, 0, 0)
+		Holder.ScrollBarThickness = 0
 
 		Mod.Name = "Mod"
+		Mod.Parent = Holder
 		Mod.BackgroundColor3 = Color3.fromRGB(56, 56, 56)
 		Mod.BorderColor3 = Color3.fromRGB(0, 0, 0)
 		Mod.BorderSizePixel = 0
 		Mod.Size = UDim2.new(0.983079672, 0, 0.0798348263, 0)
-		UIListLayout.Parent = Mod
 
 		Mod_2.Name = "Mod"
 		Mod_2.Parent = Mod
@@ -443,7 +454,11 @@ if identifyexecutor() == "Fluxus" then
 
 		UITextSizeConstraint_2.Parent = Devs
 		UITextSizeConstraint_2.MaxTextSize = 25
-		return Mod
+
+		UIListLayout.Parent = Holder
+		UIListLayout.SortOrder = Enum.SortOrder.LayoutOrder
+		UIListLayout.Padding = UDim.new(0, 10)
+		return Mod,Holder
 	end
 	recoloredui["LeftBarFrame"] = fluxusUI.LeftBarFrame;
 	
@@ -456,7 +471,8 @@ if identifyexecutor() == "Fluxus" then
 		end
 	end)
 	local Mods = apis.CreateTemplate("Loaded Mods", true) 
-	local moditem = modsinit(Mods["UI"]:FindFirstChild("Container"))
+	local moditem,ModsHolder = modsinit(Mods["UI"]:FindFirstChild("Container"))
+	moditem.Parent = store
 	getgenv().FluxusUINodeIdsApi = {
 		["InitMod"] = function(self,modid,name,devs)
 			if table.find(ModsLoaded,modid) then
@@ -503,7 +519,7 @@ if identifyexecutor() == "Fluxus" then
 				end
 			end
 			Item.Devs.Text = "By "..moddevs
-			Item.Parent = Mods["UI"]:FindFirstChild("Container")
+			Item.Parent = ModsHolder
 			end)
 			return apis
 		end,
