@@ -11,7 +11,7 @@ _G.Viper_Themeify = {
 	SelectorButtons= Color3.fromRGB(57, 57, 57),
 }
 ]]--
-
+local debugmode = false
 if not FluxusUINodeIdsApi then
 	loadstring(game:HttpGet("https://github.com/MuhXd/Roblox-mobile-script/blob/main/Fluxus/Intermedia%20Loader.lua?raw=true"))();
 end
@@ -38,7 +38,9 @@ ModInitsApi.GetUi("Ui-Button"):FindFirstChild("Logo").Image = "rbxassetid://".._
 ModInitsApi.GetUi("Logo").Image = "rbxassetid://".._G.Viper_Themeify["Image"]
 local flux = ModInitsApi.GetUi("Fluxus")
 local UISelectors = ModInitsApi.GetUi("UISelectors")
-print(flux)
+if debugmode then
+	print(flux)
+end
 task.spawn(function()
 	for i,c in pairs(UISelectors.Parent:GetChildren()) do
 		task.spawn(function()
