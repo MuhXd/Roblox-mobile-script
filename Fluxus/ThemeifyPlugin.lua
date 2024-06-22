@@ -13,7 +13,7 @@ _G.Viper_Themeify = {
 }
 ]]--
 local debugmode = false
-local localspeedtweenDebug = 10
+local localspeedtweenDebug = 5.5
 if not FluxusUINodeIdsApi then
 	loadstring(game:HttpGet("https://github.com/MuhXd/Roblox-mobile-script/blob/main/Fluxus/Intermedia%20Loader.lua?raw=true"))();
  	game:GetService("CoreGui"):WaitForChild("FluxusAndroidUI")
