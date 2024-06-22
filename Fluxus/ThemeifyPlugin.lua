@@ -21,14 +21,20 @@ end
 local viper = _G.Viper_Themeify.ThemeDevs or {}
 viper[530829101] = "userid"
 local ModInitsApi
+local Modname = _G.Viper_Themeify.ThemeName
+if name then
+name = _G.Viper_Themeify.ThemeName.." Theme"
+else
+	name = "Themeify"
+end
 if not _G.Viper_Themeify["ModApi"] then
-	ModInitsApi = FluxusUINodeIdsApi:InitMod("Viper.Themeify","Fluxus Themes", viper)
+	ModInitsApi = FluxusUINodeIdsApi:InitMod("Viper.Themeify",Modname, viper)
 	_G.Viper_ThemeifyStorage["ModApi"] = ModInitsApi
 else
 	ModInitsApi = _G.Viper_ThemeifyStorage["ModApi"] 
 	ModInitsApi:EditInfo({
 		["Devs"] = viper
-		["Name"] = _G.Viper_Themeify.ThemeName.." Theme" or "Themeify"
+		["Name"] = Modname
 	})
 end
 ModInitsApi.Colorify(ModInitsApi.GetUi("Ui-Button"),{
