@@ -47,9 +47,11 @@ ModInitsApi.Colorify(ModInitsApi.GetUi("Ui-Button"),{
 	["Color3"] = _G.Viper_Themeify.FloatingIconColor or nil;
 },(localspeedtweenDebug-1) ) 	
 	end)
-
-ModInitsApi.GetUi("Ui-Button"):FindFirstChild("Logo").Image = "rbxassetid://".._G.Viper_Themeify["Image"]
-ModInitsApi.GetUi("Logo").Image = "rbxassetid://".._G.Viper_Themeify["Image"]
+task.spawn(function()
+	task.wait(localspeedtweenDebug)
+	ModInitsApi.GetUi("Ui-Button"):FindFirstChild("Logo").Image = "rbxassetid://".._G.Viper_Themeify["Image"]
+	ModInitsApi.GetUi("Logo").Image = "rbxassetid://".._G.Viper_Themeify["Image"]
+end)
 ModInitsApi.Colorify(v,{
 	["Color3"] = _G.Viper_Themeify.SelectorButtons or nil;
 },localspeedtweenDebug)
