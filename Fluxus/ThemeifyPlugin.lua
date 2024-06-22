@@ -16,7 +16,7 @@ local debugmode = false
 local localspeedtweenDebug = 5.5
 if not FluxusUINodeIdsApi then
 	loadstring(game:HttpGet("https://github.com/MuhXd/Roblox-mobile-script/blob/main/Fluxus/Intermedia%20Loader.lua?raw=true"))();
- 	game:GetService("CoreGui"):WaitForChild("FluxusAndroidUI")
+	game:GetService("CoreGui"):WaitForChild("FluxusAndroidUI")
 end
 if not _G.Viper_ThemeifyStorage then
 	_G.Viper_ThemeifyStorage = {}
@@ -43,18 +43,24 @@ end
 
 task.spawn(function()
 	task.wait(1)
-ModInitsApi.Colorify(ModInitsApi.GetUi("Ui-Button"),{
-	["Color3"] = _G.Viper_Themeify.FloatingIconColor or nil;
-},(localspeedtweenDebug-1) ) 	
-	end)
-task.spawn(function()
-	task.wait(localspeedtweenDebug)
-	ModInitsApi.GetUi("Ui-Button"):FindFirstChild("Logo").Image = "rbxassetid://".._G.Viper_Themeify["Image"]
-	ModInitsApi.GetUi("Logo").Image = "rbxassetid://".._G.Viper_Themeify["Image"]
+	ModInitsApi.Colorify(ModInitsApi.GetUi("Ui-Button"),{
+		["Color3"] = _G.Viper_Themeify.FloatingIconColor or nil;
+	},(localspeedtweenDebug-1) ) 	
 end)
-ModInitsApi.Colorify(v,{
-	["Color3"] = _G.Viper_Themeify.SelectorButtons or nil;
-},localspeedtweenDebug)
+local function tweenimages(imager,image)
+	ModInitsApi.Colorify(imager:Clone(),{
+		["ImageTransparency"] = 1;
+	},(localspeedtweenDebug),true ) 
+	imager.Image = image
+	ModInitsApi.Colorify(imager,{
+		["ImageTransparency"] = 0;
+	},(localspeedtweenDebug),true ) 
+end
+task.spawn(function()
+	tweenimages(ModInitsApi.GetUi("Logo"),"rbxassetid://".._G.Viper_Themeify["Image"])
+	tweenimages(ModInitsApi.GetUi("Ui-Button"):FindFirstChild("Logo"),"rbxassetid://".._G.Viper_Themeify["Image"])
+end)
+
 local flux = ModInitsApi.GetUi("Fluxus")
 local UISelectors = ModInitsApi.GetUi("UISelectors")
 if debugmode then
