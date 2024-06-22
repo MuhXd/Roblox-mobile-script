@@ -52,13 +52,22 @@ local function tweenimages(imager,image)
 	a.Parent = imager.Parent
 	a.Name = "_Fade"
 	a.ZIndex = (imager.ZIndex + 1)
-	ModInitsApi.Colorify(a,{
+	local b = game:GetService("TweenService"):Create(a,TweenInfo(localspeedtweenDebug),{
 		["ImageTransparency"] = 1;
-	},(localspeedtweenDebug),true ) 
+	})
 	imager.Image = image
-	ModInitsApi.Colorify(imager,{
+	imager.ImageTransparency = 1
+	local c = game:GetService("TweenService"):Create(imager,TweenInfo(localspeedtweenDebug),{
 		["ImageTransparency"] = 0;
-	},(localspeedtweenDebug),true ) 
+	})
+	
+	task.spawn(function()
+		c:Play()
+	end)
+	task.spawn(function()
+		b:Play()
+	end)
+	
 	task.spawn(function()
 		task.wait(localspeedtweenDebug+2)
 		a:Remove()
