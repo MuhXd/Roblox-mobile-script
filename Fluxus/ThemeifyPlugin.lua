@@ -52,12 +52,12 @@ local function tweenimages(imager,image)
 	a.Parent = imager.Parent
 	a.Name = "_Fade"
 	a.ZIndex = (imager.ZIndex + 1)
-	local b = game:GetService("TweenService"):Create(a,TweenInfo(localspeedtweenDebug),{
+	local b = game:GetService("TweenService"):Create(a,TweenInfo.new(localspeedtweenDebug),{
 		["ImageTransparency"] = 1;
 	})
 	imager.Image = image
 	imager.ImageTransparency = 1
-	local c = game:GetService("TweenService"):Create(imager,TweenInfo(localspeedtweenDebug),{
+	local c = game:GetService("TweenService"):Create(imager,TweenInfo.new(localspeedtweenDebug),{
 		["ImageTransparency"] = 0;
 	})
 	
