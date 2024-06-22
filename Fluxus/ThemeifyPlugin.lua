@@ -22,7 +22,7 @@ local viper = _G.Viper_Themeify.ThemeDevs or {}
 viper[530829101] = "userid"
 local ModInitsApi
 if not _G.Viper_Themeify["ModApi"] then
-	ModInitsApi = FluxusUINodeIdsApi:InitMod("Viper.Themeify","Themes", viper)
+	ModInitsApi = FluxusUINodeIdsApi:InitMod("Viper.Themeify","Fluxus Themes", viper)
 	_G.Viper_ThemeifyStorage["ModApi"] = ModInitsApi
 else
 	ModInitsApi = _G.Viper_ThemeifyStorage["ModApi"] 
