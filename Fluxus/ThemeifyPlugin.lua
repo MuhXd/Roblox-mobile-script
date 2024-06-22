@@ -48,13 +48,21 @@ task.spawn(function()
 	},(localspeedtweenDebug-1) ) 	
 end)
 local function tweenimages(imager,image)
-	ModInitsApi.Colorify(imager:Clone(),{
+	local a = imager:Clone()
+	a.Parent = imager.Parent
+	a.Name = "_Fade"
+	a.ZIndex = (imager.ZIndex + 1)
+	ModInitsApi.Colorify(a,{
 		["ImageTransparency"] = 1;
 	},(localspeedtweenDebug),true ) 
 	imager.Image = image
 	ModInitsApi.Colorify(imager,{
 		["ImageTransparency"] = 0;
 	},(localspeedtweenDebug),true ) 
+	task.spawn(function()
+		task.wait(localspeedtweenDebug+2)
+		a:Remove()
+	end)
 end
 task.spawn(function()
 	tweenimages(ModInitsApi.GetUi("Logo"),"rbxassetid://".._G.Viper_Themeify["Image"])
