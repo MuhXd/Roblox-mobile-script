@@ -40,9 +40,13 @@ else
 		["Name"] = Modname;
 	})
 end
+
+task.spawn(function()
+	task.wait(1)
 ModInitsApi.Colorify(ModInitsApi.GetUi("Ui-Button"),{
 	["Color3"] = _G.Viper_Themeify.FloatingIconColor or nil;
-},localspeedtweenDebug) 
+},(localspeedtweenDebug-1) ) 	
+	end)
 
 ModInitsApi.GetUi("Ui-Button"):FindFirstChild("Logo").Image = "rbxassetid://".._G.Viper_Themeify["Image"]
 ModInitsApi.GetUi("Logo").Image = "rbxassetid://".._G.Viper_Themeify["Image"]
