@@ -28,6 +28,7 @@ else
 	ModInitsApi = _G.Viper_ThemeifyStorage["ModApi"] 
 	ModInitsApi:EditInfo({
 		["Devs"] = viper
+		["Name"] = _G.Viper_Themeify.ThemeName.." Theme" or "Themeify"
 	})
 end
 ModInitsApi.Colorify(ModInitsApi.GetUi("Ui-Button"),{
