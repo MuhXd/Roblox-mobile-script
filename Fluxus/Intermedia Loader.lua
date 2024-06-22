@@ -577,3 +577,4 @@ game.Players.PlayerRemoving:Connect(function(plr)
 		saveSettingsFile()
 	end
 end)
+task.wait(1)
