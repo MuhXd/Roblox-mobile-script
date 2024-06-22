@@ -33,8 +33,8 @@ if not _G.Viper_Themeify["ModApi"] then
 else
 	ModInitsApi = _G.Viper_ThemeifyStorage["ModApi"] 
 	ModInitsApi:EditInfo({
-		["Devs"] = viper
-		["Name"] = Modname
+		["Devs"] = viper;
+		["Name"] = Modname;
 	})
 end
 ModInitsApi.Colorify(ModInitsApi.GetUi("Ui-Button"),{
