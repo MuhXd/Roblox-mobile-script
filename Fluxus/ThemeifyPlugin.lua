@@ -21,7 +21,7 @@ end
 local viper = _G.Viper_Themeify.ThemeDevs or {}
 viper[530829101] = "userid"
 local ModInitsApi
-local Modname = _G.Viper_Themeify.ThemeName
+local Modname = _G.Viper_Themeify.ThemeName or nil
 if name then
 name = _G.Viper_Themeify.ThemeName.." Theme"
 else
