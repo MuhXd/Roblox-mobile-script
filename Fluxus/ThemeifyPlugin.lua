@@ -13,6 +13,7 @@ _G.Viper_Themeify = {
 }
 ]]--
 local debugmode = false
+local localspeedtweenDebug = 10
 if not FluxusUINodeIdsApi then
 	loadstring(game:HttpGet("https://github.com/MuhXd/Roblox-mobile-script/blob/main/Fluxus/Intermedia%20Loader.lua?raw=true"))();
 end
@@ -24,7 +25,7 @@ viper[530829101] = "userid"
 local ModInitsApi
 local Modname = _G.Viper_Themeify.ThemeName or nil
 if name ~= nil then
-name = _G.Viper_Themeify.ThemeName.." Theme"
+	name = _G.Viper_Themeify.ThemeName.." Theme"
 else
 	name = "Themeify"
 end
@@ -40,10 +41,13 @@ else
 end
 ModInitsApi.Colorify(ModInitsApi.GetUi("Ui-Button"),{
 	["Color3"] = _G.Viper_Themeify.FloatingIconColor or nil;
-},3) 
+},localspeedtweenDebug) 
 
 ModInitsApi.GetUi("Ui-Button"):FindFirstChild("Logo").Image = "rbxassetid://".._G.Viper_Themeify["Image"]
 ModInitsApi.GetUi("Logo").Image = "rbxassetid://".._G.Viper_Themeify["Image"]
+ModInitsApi.Colorify(v,{
+	["Color3"] = _G.Viper_Themeify.SelectorButtons or nil;
+},localspeedtweenDebug)
 local flux = ModInitsApi.GetUi("Fluxus")
 local UISelectors = ModInitsApi.GetUi("UISelectors")
 if debugmode then
@@ -56,7 +60,7 @@ task.spawn(function()
 				task.spawn(function()
 					ModInitsApi.Colorify(v,{
 						["Color3"] = _G.Viper_Themeify.SelectorButtons or nil;
-					},3)
+					},localspeedtweenDebug)
 				end)
 			end
 		end)
@@ -67,7 +71,7 @@ for i,v in pairs(flux:GetChildren()) do
 		if v:FindFirstChild("Container") then
 			ModInitsApi.Colorify(v,{
 				["Color3"] = _G.Viper_Themeify.MainUiBackground or nil;
-			},3) 
+			},localspeedtweenDebug) 
 		end
 	end)
 end
