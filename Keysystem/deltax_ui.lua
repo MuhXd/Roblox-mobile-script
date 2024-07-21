@@ -5834,7 +5834,7 @@ end
 
 coroutine.wrap(function()
     --print("starting up")
-	local bool = checkkey()
+	local bool = true
     
     -- This is being ran when no saved key is found
     if not bool then
