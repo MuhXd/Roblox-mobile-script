@@ -5804,7 +5804,7 @@ function checkkey()
 
     local savedkey = readfile("dsigfiureikuger.txt")
 
-	local keyless = game:HttpGet("https://raw.githubusercontent.com/lxnnydev/DeltaAndroid/main/iskeyless")
+	local keyless = "true"
 	if string.find(keyless, "true") then
 		GrantAccess()
         return true
@@ -5834,7 +5834,7 @@ end
 
 coroutine.wrap(function()
     --print("starting up")
-	local bool = true
+	local bool = checkkey()
     
     -- This is being ran when no saved key is found
     if not bool then
