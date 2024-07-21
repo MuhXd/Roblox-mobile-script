@@ -100,7 +100,7 @@ local function c()
 	f.Parent = game.Players.LocalPlayer.PlayerGui
 	return f
 end
-local protection = game:GetService("CoreGui") or c()
+local protection = game:GetService("CoreGui") and function(ui) ui.Parent= game:GetService("CoreGui") end or function(ui) ui.Parent = c() end
 local setthreadiden = set_thread_identity or setthreadidentity or setthreadcontext 
 local functiontoreplace = {
 	["is_beta"] = function()
